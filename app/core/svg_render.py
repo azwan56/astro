@@ -179,16 +179,49 @@ CHANNEL_PATHS = {
 }
 
 
+import re
+
+
+def split_path_half(path_str: str) -> Tuple[str, str]:
+    """
+    Subdivides an SVG line or cubic Bezier curve into two halves (t in [0, 0.5] and [0.5, 1.0]).
+    Uses de Casteljau algorithm for smooth curvature matching.
+    """
+    coords = [float(x) for x in re.findall(r'[-+]?(?:\d*\.\d+|\d+)', path_str)]
+    if len(coords) == 4:
+        x0, y0, x3, y3 = coords
+        mx = (x0 + x3) / 2.0
+        my = (y0 + y3) / 2.0
+        return (f"M {x0:.1f},{y0:.1f} L {mx:.1f},{my:.1f}", f"M {mx:.1f},{my:.1f} L {x3:.1f},{y3:.1f}")
+    elif len(coords) == 8:
+        p0 = (coords[0], coords[1])
+        p1 = (coords[2], coords[3])
+        p2 = (coords[4], coords[5])
+        p3 = (coords[6], coords[7])
+
+        q0 = ((p0[0] + p1[0]) / 2.0, (p0[1] + p1[1]) / 2.0)
+        q1 = ((p1[0] + p2[0]) / 2.0, (p1[1] + p2[1]) / 2.0)
+        q2 = ((p2[0] + p3[0]) / 2.0, (p2[1] + p3[1]) / 2.0)
+
+        r0 = ((q0[0] + q1[0]) / 2.0, (q0[1] + q1[1]) / 2.0)
+        r1 = ((q1[0] + q2[0]) / 2.0, (q1[1] + q2[1]) / 2.0)
+
+        m = ((r0[0] + r1[0]) / 2.0, (r0[1] + r1[1]) / 2.0)
+
+        half_a = f"M {p0[0]:.1f},{p0[1]:.1f} C {q0[0]:.1f},{q0[1]:.1f} {r0[0]:.1f},{r0[1]:.1f} {m[0]:.1f},{m[1]:.1f}"
+        half_b = f"M {m[0]:.1f},{m[1]:.1f} C {r1[0]:.1f},{r1[1]:.1f} {q2[0]:.1f},{q2[1]:.1f} {p3[0]:.1f},{p3[1]:.1f}"
+        return (half_a, half_b)
+    return (path_str, path_str)
+
+
 def generate_bodygraph_svg(chart_data: dict) -> str:
     defined_centers = set(chart_data["defined_centers"])
-    defined_channels = {}
-    for ch in chart_data["defined_channels"]:
-        defined_channels[(ch["gate_a"], ch["gate_b"])] = ch["color"]
-        defined_channels[(ch["gate_b"], ch["gate_a"])] = ch["color"]
-
     pers_gates = chart_data["personality_gates"]
     des_gates = chart_data["design_gates"]
     active_gates = set(chart_data["active_gates"])
+
+    pers_gate_set = set(g for g, _ in pers_gates.values())
+    des_gate_set = set(g for g, _ in des_gates.values())
 
     from app.core.mandala import longitude_to_substructure
     pers_lons = chart_data.get("personality_longitudes", {})
@@ -277,8 +310,22 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         svg.append(f'<text x="556" y="{y_pos + 21}" fill="#FFFFFF" font-size="14" font-weight="bold">{gate}.{line} {arrow}</text>')
         svg.append(f'<text x="616" y="{y_pos + 21}" fill="#FFFFFF" font-size="15" font-weight="bold" text-anchor="end">{symbol}</text>')
 
-    # 7. Render All Channels (Active Channels in Solid Red/Black/Striped, Undefined Channels in double grey guide lines)
+    # 7. Render All 36 Channels (Full Guide Tracks + Active Full/Half Hanging Channels)
     from app.data.hd_topology import CHANNELS_DATA
+
+    # Layer 7.1: Underlying Full Double Guide Tracks
+    for g1, g2, name, c1, c2 in CHANNELS_DATA:
+        ch_key = (g1, g2)
+        rev_key = (g2, g1)
+        path_d = CHANNEL_PATHS.get(ch_key) or CHANNEL_PATHS.get(rev_key)
+        if not path_d:
+            p1 = CENTER_NODE_ANCHORS[c1]
+            p2 = CENTER_NODE_ANCHORS[c2]
+            path_d = f"M {p1[0]},{p1[1]} L {p2[0]},{p2[1]}"
+        svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="7" stroke-linecap="round" fill="none" />')
+        svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="4.2" stroke-linecap="round" fill="none" />')
+
+    # Layer 7.2: Active Colored Channel Halves (Personality Black / Design Red / Both Striped)
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -288,21 +335,29 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
             p2 = CENTER_NODE_ANCHORS[c2]
             path_d = f"M {p1[0]},{p1[1]} L {p2[0]},{p2[1]}"
 
-        is_defined = ch_key in defined_channels or rev_key in defined_channels
-        if is_defined:
-            color_type = defined_channels.get(ch_key) or defined_channels.get(rev_key)
-            if color_type == "Design":
-                svg.append(f'<path d="{path_d}" stroke="#E50014" stroke-width="8" stroke-linecap="round" fill="none" />')
-            elif color_type == "Personality":
-                svg.append(f'<path d="{path_d}" stroke="#1F1A24" stroke-width="8" stroke-linecap="round" fill="none" />')
-            else:
-                # Both: Red base with black striped overlay
-                svg.append(f'<path d="{path_d}" stroke="#E50014" stroke-width="8" stroke-linecap="round" fill="none" />')
-                svg.append(f'<path d="{path_d}" stroke="#1F1A24" stroke-width="8" stroke-dasharray="8 8" stroke-linecap="round" fill="none" />')
-        else:
-            # Undefined clean subtle double track line
-            svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="5.5" stroke-linecap="round" fill="none" />')
-            svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" />')
+        half_1, half_2 = split_path_half(path_d)
+
+        # Gate 1 activation
+        is_pers_1 = g1 in pers_gate_set
+        is_des_1 = g1 in des_gate_set
+        if is_pers_1 and is_des_1:
+            svg.append(f'<path d="{half_1}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#1F1A24" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
+        elif is_des_1:
+            svg.append(f'<path d="{half_1}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+        elif is_pers_1:
+            svg.append(f'<path d="{half_1}" stroke="#1F1A24" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+
+        # Gate 2 activation
+        is_pers_2 = g2 in pers_gate_set
+        is_des_2 = g2 in des_gate_set
+        if is_pers_2 and is_des_2:
+            svg.append(f'<path d="{half_2}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#1F1A24" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
+        elif is_des_2:
+            svg.append(f'<path d="{half_2}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+        elif is_pers_2:
+            svg.append(f'<path d="{half_2}" stroke="#1F1A24" stroke-width="7.5" stroke-linecap="square" fill="none" />')
 
     # 8. Render The 9 Energy Centers
     for c_name, c_info in CENTERS_DATA.items():
