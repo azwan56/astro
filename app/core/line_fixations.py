@@ -176,7 +176,7 @@ RAVE_LINE_FIXATIONS: Dict[Tuple[int, int], Dict[str, List[str]]] = {
     # Gate 21
     (21, 1): {"exalted": ["Mars"], "detriment": ["Moon"]},
     (21, 2): {"exalted": ["Mars"], "detriment": ["Jupiter"]},
-    (21, 3): {"exalted": ["Mars"], "detriment": ["Jupiter", "Uranus"]},
+    (21, 3): {"exalted": ["Mars"], "detriment": ["Jupiter"]},
     (21, 4): {"exalted": ["Jupiter"], "detriment": ["Pluto"]},
     (21, 5): {"exalted": ["Jupiter"], "detriment": ["Venus"]},
     (21, 6): {"exalted": ["Pluto"], "detriment": ["Venus"]},
@@ -518,7 +518,7 @@ RAVE_LINE_FIXATIONS: Dict[Tuple[int, int], Dict[str, List[str]]] = {
     (63, 6): {"exalted": ["Mercury"], "detriment": ["Mars"]},
 
     # Gate 64
-    (64, 1): {"exalted": ["Venus", "Mars"], "detriment": ["Moon"]},
+    (64, 1): {"exalted": ["Venus", "Mars"], "detriment": []},
     (64, 2): {"exalted": ["Venus"], "detriment": ["Sun"]},
     (64, 3): {"exalted": ["Moon"], "detriment": ["Mars"]},
     (64, 4): {"exalted": ["Sun"], "detriment": ["Moon"]},

@@ -251,18 +251,18 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     des_lons = chart_data.get("design_longitudes", {})
 
     if des_lons and "Sun" in des_lons:
-        des_sun_sub = longitude_to_substructure(des_lons["Sun"])
-        des_node_sub = longitude_to_substructure(des_lons["North_Node"])
+        des_sun_sub = longitude_to_substructure(des_lons["Sun"], is_node=False)
+        des_node_sub = longitude_to_substructure(des_lons["North_Node"], is_node=True)
     else:
         des_sun_sub = {"color": 1, "tone": 1, "arrow": "Left"}
-        des_node_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+        des_node_sub = {"color": 1, "tone": 6, "arrow": "Right"}
 
     if pers_lons and "Sun" in pers_lons:
-        pers_sun_sub = longitude_to_substructure(pers_lons["Sun"])
-        pers_node_sub = longitude_to_substructure(pers_lons["North_Node"])
+        pers_sun_sub = longitude_to_substructure(pers_lons["Sun"], is_node=False)
+        pers_node_sub = longitude_to_substructure(pers_lons["North_Node"], is_node=False)
     else:
         pers_sun_sub = {"color": 1, "tone": 1, "arrow": "Left"}
-        pers_node_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+        pers_node_sub = {"color": 1, "tone": 6, "arrow": "Right"}
 
     des_sun_arr = "←" if des_sun_sub["arrow"] == "Left" else "→"
     des_node_arr = "←" if des_node_sub["arrow"] == "Left" else "→"

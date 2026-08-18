@@ -11,7 +11,7 @@ Each Tone spans 0.026041666666666668° (0.15625° / 6).
 Each Base spans 0.005208333333333333° (Tone / 5).
 """
 
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Any
 
 # The exact canonical 64 Gates sequence along the Rave Mandala Wheel starting at Aquarius 02°00'00" (Gate 41)
 MANDALA_GATES = [
@@ -48,7 +48,7 @@ def longitude_to_gate_line(longitude_deg: float) -> Tuple[int, int]:
     return gate, line_idx
 
 
-def longitude_to_substructure(longitude_deg: float) -> Dict[str, int]:
+def longitude_to_substructure(longitude_deg: float, is_node: bool = False) -> Dict[str, Any]:
     """
     Converts a tropical ecliptic longitude to complete 5-layer substructure:
     - Gate (1-64)
@@ -67,13 +67,21 @@ def longitude_to_substructure(longitude_deg: float) -> Dict[str, int]:
     line_idx = min(6, int(rem_gate // LINE_SPAN_DEG) + 1)
     rem_line = rem_gate % LINE_SPAN_DEG
     
-    color_idx = min(6, int(rem_line // COLOR_SPAN_DEG) + 1)
-    rem_color = rem_line % COLOR_SPAN_DEG
-    
-    tone_idx = min(6, int(rem_color // TONE_SPAN_DEG) + 1)
-    rem_tone = rem_color % TONE_SPAN_DEG
-    
-    base_idx = min(5, int(rem_tone // BASE_SPAN_DEG) + 1)
+    if is_node:
+        frac_line = 1.0 - (rem_line / LINE_SPAN_DEG)
+        color_idx = min(6, int(frac_line * 6) + 1)
+        rem_color_frac = (frac_line * 6) % 1.0
+        tone_idx = min(6, int(rem_color_frac * 6) + 1)
+        rem_tone_frac = (rem_color_frac * 6) % 1.0
+        base_idx = min(5, int(rem_tone_frac * 5) + 1)
+    else:
+        color_idx = min(6, int(rem_line // COLOR_SPAN_DEG) + 1)
+        rem_color = rem_line % COLOR_SPAN_DEG
+        
+        tone_idx = min(6, int(rem_color // TONE_SPAN_DEG) + 1)
+        rem_tone = rem_color % TONE_SPAN_DEG
+        
+        base_idx = min(5, int(rem_tone // BASE_SPAN_DEG) + 1)
     
     arrow = "Left" if tone_idx in [1, 2, 3] else "Right"
     
