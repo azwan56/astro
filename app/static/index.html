@@ -146,8 +146,8 @@
 
             <!-- Refined Global City Search Bar with Weighted Autocomplete -->
             <div class="form-group">
-                <label style="color:#F97316; font-weight:700;">🌍 全球城市（支持中英文/拼音）</label>
-                <input type="text" id="city_search" class="form-control" placeholder="输入城市名称（如：北京、上海、太仓、香港、纽约、Tokyo）" onfocus="handleCityInput(this.value)" oninput="handleCityInput(this.value)">
+                <label style="color:#F97316; font-weight:700;">🌍 全球城市（支持中英文/拼音/缩写）</label>
+                <input type="text" id="city_search" class="form-control" placeholder="输入城市（如：北京、乌鲁木齐、拉萨、太仓、wlmq、ls、纽约）" onfocus="handleCityInput(this.value)" oninput="handleCityInput(this.value)">
                 <div class="city-dropdown" id="cityDropdown"></div>
             </div>
 
@@ -159,13 +159,13 @@
                     <span class="chip" onclick="selectCityItem('广东省 广州市 (Guangzhou)', 23.1291, 113.2644, 'Asia/Shanghai')">广州</span>
                     <span class="chip" onclick="selectCityItem('广东省 深圳市 (Shenzhen)', 22.5431, 114.0579, 'Asia/Shanghai')">深圳</span>
                     <span class="chip" onclick="selectCityItem('香港特别行政区 (Hong Kong)', 22.3193, 114.1694, 'Asia/Hong_Kong')">香港</span>
+                    <span class="chip" onclick="selectCityItem('新疆 乌鲁木齐市 (Urumqi)', 43.8256, 87.6168, 'Asia/Urumqi')">乌鲁木齐</span>
+                    <span class="chip" onclick="selectCityItem('西藏 拉萨市 (Lhasa)', 29.6525, 91.1721, 'Asia/Shanghai')">拉萨</span>
                     <span class="chip" onclick="selectCityItem('浙江省 杭州市 (Hangzhou)', 30.2741, 120.1551, 'Asia/Shanghai')">杭州</span>
                     <span class="chip" onclick="selectCityItem('四川省 成都市 (Chengdu)', 30.5728, 104.0668, 'Asia/Shanghai')">成都</span>
                     <span class="chip" onclick="selectCityItem('日本 东京 (Tokyo)', 35.6762, 139.6503, 'Asia/Tokyo')">东京</span>
                     <span class="chip" onclick="selectCityItem('美国 纽约 (New York)', 40.7128, -74.0060, 'America/New_York')">纽约</span>
                     <span class="chip" onclick="selectCityItem('江苏省 苏州市 太仓市 (Taicang)', 31.4582, 121.1340, 'Asia/Shanghai')">太仓</span>
-                    <span class="chip" onclick="selectCityItem('江苏省 苏州市 昆山市 (Kunshan)', 31.3845, 120.9807, 'Asia/Shanghai')">昆山</span>
-                    <span class="chip" onclick="selectCityItem('浙江省 金华市 义乌市 (Yiwu)', 29.3069, 120.0751, 'Asia/Shanghai')">义乌</span>
                 </div>
             </div>
 
