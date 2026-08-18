@@ -134,6 +134,8 @@ class HumanDesignHandler(BaseHTTPRequestHandler):
 
                 # 3. Analyze Chart with Bridge Algorithm
                 chart_result = analyze_human_design_chart(pers_gates, des_gates)
+                chart_result["personality_longitudes"] = pers_lons
+                chart_result["design_longitudes"] = des_lons
 
                 # 4. Generate SVG
                 svg_str = generate_bodygraph_svg(chart_result)

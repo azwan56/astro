@@ -190,14 +190,37 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     des_gates = chart_data["design_gates"]
     active_gates = set(chart_data["active_gates"])
 
-    des_sun_c, des_sun_t = calculate_color_tone(chart_data["design_gates"]["Sun"][0])
-    des_node_c, des_node_t = calculate_color_tone(chart_data["design_gates"]["North_Node"][0])
-    pers_sun_c, pers_sun_t = calculate_color_tone(chart_data["personality_gates"]["Sun"][0])
-    pers_node_c, pers_node_t = calculate_color_tone(chart_data["personality_gates"]["North_Node"][0])
+    from app.core.mandala import longitude_to_substructure
+    pers_lons = chart_data.get("personality_longitudes", {})
+    des_lons = chart_data.get("design_longitudes", {})
+
+    if des_lons and "Sun" in des_lons:
+        des_sun_sub = longitude_to_substructure(des_lons["Sun"])
+        des_node_sub = longitude_to_substructure(des_lons["North_Node"])
+    else:
+        des_sun_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+        des_node_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+
+    if pers_lons and "Sun" in pers_lons:
+        pers_sun_sub = longitude_to_substructure(pers_lons["Sun"])
+        pers_node_sub = longitude_to_substructure(pers_lons["North_Node"])
+    else:
+        pers_sun_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+        pers_node_sub = {"color": 1, "tone": 1, "arrow": "Left"}
+
+    des_sun_c, des_sun_t = des_sun_sub["color"], des_sun_sub["tone"]
+    des_node_c, des_node_t = des_node_sub["color"], des_node_sub["tone"]
+    pers_sun_c, pers_sun_t = pers_sun_sub["color"], pers_sun_sub["tone"]
+    pers_node_c, pers_node_t = pers_node_sub["color"], pers_node_sub["tone"]
+
+    des_sun_arr = "⬅" if des_sun_sub["arrow"] == "Left" else "➡"
+    des_node_arr = "⬅" if des_node_sub["arrow"] == "Left" else "➡"
+    pers_sun_arr = "⬅" if pers_sun_sub["arrow"] == "Left" else "➡"
+    pers_node_arr = "⬅" if pers_node_sub["arrow"] == "Left" else "➡"
 
     svg = []
     # 1. High-Definition Canvas with Safe Padding (viewBox 0 -15 640 985)
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -15 {WIDTH} {HEIGHT + 25}" width="100%" height="100%" style="background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;">')
+    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -15 {WIDTH} {HEIGHT + 25}" width="100%" height="100%" style="background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, sans-serif;">')
 
     # 2. Defs & Striped Patterns for Red/Black Dual Channels
     svg.append('''
@@ -222,14 +245,14 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     # Left Red (Design)
     svg.append('<text x="210" y="65" fill="#E50014" font-size="12.5" font-weight="700" text-anchor="middle">Color</text>')
     svg.append('<text x="255" y="86" fill="#E50014" font-size="12.5" font-weight="700" text-anchor="middle">Tone</text>')
-    svg.append(f'<text x="232" y="110" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">➡  {des_sun_c}  {des_sun_t}</text>')
-    svg.append(f'<text x="232" y="134" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">⬅  {des_node_c}  {des_node_t}</text>')
+    svg.append(f'<text x="232" y="110" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">{des_sun_arr}  {des_sun_c}  {des_sun_t}</text>')
+    svg.append(f'<text x="232" y="134" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">{des_node_arr}  {des_node_c}  {des_node_t}</text>')
 
     # Right Charcoal (Personality)
     svg.append('<text x="430" y="65" fill="#4B5563" font-size="12.5" font-weight="700" text-anchor="middle">Color</text>')
     svg.append('<text x="385" y="86" fill="#4B5563" font-size="12.5" font-weight="700" text-anchor="middle">Tone</text>')
-    svg.append(f'<text x="408" y="110" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_sun_t}  {pers_sun_c}  ➡</text>')
-    svg.append(f'<text x="408" y="134" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_node_t}  {pers_node_c}  ➡</text>')
+    svg.append(f'<text x="408" y="110" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_sun_t}  {pers_sun_c}  {pers_sun_arr}</text>')
+    svg.append(f'<text x="408" y="134" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_node_t}  {pers_node_c}  {pers_node_arr}</text>')
 
     # 5. Left Solid Red Column (Design 13 Planets) - X in [12, 96], Width = 84
     y_start = 55

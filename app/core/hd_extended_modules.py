@@ -290,22 +290,24 @@ def get_energy_bridge_diagnostics(chart_result: dict) -> dict:
     }
 
 
+from app.core.mandala import longitude_to_gate_line, longitude_to_substructure
+
+
 def calculate_color_tone(longitude_deg: float) -> Tuple[int, int]:
-    offset = (longitude_deg - 315.0) % 360.0
-    line_offset = offset % 0.9375
-    color_idx = int(line_offset // 0.15625) + 1
-    if color_idx > 6: color_idx = 6
-    color_remainder = line_offset % 0.15625
-    tone_idx = int(color_remainder // 0.02604166) + 1
-    if tone_idx > 6: tone_idx = 6
-    return color_idx, tone_idx
+    sub = longitude_to_substructure(longitude_deg)
+    return sub["color"], sub["tone"]
 
 
 def calculate_phs_and_variables(pers_lons: dict, des_lons: dict) -> dict:
-    des_sun_color, des_sun_tone = calculate_color_tone(des_lons["Sun"])
-    des_node_color, des_node_tone = calculate_color_tone(des_lons["North_Node"])
-    pers_sun_color, pers_sun_tone = calculate_color_tone(pers_lons["Sun"])
-    pers_node_color, pers_node_tone = calculate_color_tone(pers_lons["North_Node"])
+    des_sun_sub = longitude_to_substructure(des_lons["Sun"])
+    des_node_sub = longitude_to_substructure(des_lons["North_Node"])
+    pers_sun_sub = longitude_to_substructure(pers_lons["Sun"])
+    pers_node_sub = longitude_to_substructure(pers_lons["North_Node"])
+
+    des_sun_color, des_sun_tone = des_sun_sub["color"], des_sun_sub["tone"]
+    des_node_color, des_node_tone = des_node_sub["color"], des_node_sub["tone"]
+    pers_sun_color, pers_sun_tone = pers_sun_sub["color"], pers_sun_sub["tone"]
+    pers_node_color, pers_node_tone = pers_node_sub["color"], pers_node_sub["tone"]
 
     p1_letter = "L" if pers_sun_tone <= 3 else "R"
     p2_letter = "L" if pers_node_tone <= 3 else "R"
