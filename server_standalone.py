@@ -137,6 +137,10 @@ class HumanDesignHandler(BaseHTTPRequestHandler):
                 chart_result["personality_longitudes"] = pers_lons
                 chart_result["design_longitudes"] = des_lons
 
+                from app.core.line_fixations import calculate_chart_fixations
+                chart_result["personality_fixations"] = calculate_chart_fixations(pers_gates)
+                chart_result["design_fixations"] = calculate_chart_fixations(des_gates)
+
                 # 4. Generate SVG
                 svg_str = generate_bodygraph_svg(chart_result)
 

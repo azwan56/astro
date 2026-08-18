@@ -306,6 +306,10 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
 
     # 4. Ultra-Clean Minimalist Left Design Column
     # Header: "Design" with vibrant red underline
+    from app.core.line_fixations import calculate_chart_fixations
+    des_fixations = chart_data.get("design_fixations") or calculate_chart_fixations(des_gates)
+    pers_fixations = chart_data.get("personality_fixations") or calculate_chart_fixations(pers_gates)
+
     svg.append('<text x="72" y="46" fill="#0F172A" font-size="16" font-weight="700" text-anchor="middle">Design</text>')
     svg.append('<line x1="22" y1="56" x2="122" y2="56" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" />')
 
@@ -315,7 +319,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         gate, line = des_gates.get(planet, (0, 0))
         symbol = PLANET_SYMBOLS.get(planet, "")
         y_pos = y_start + idx * row_gap
-        arrow = "▼" if idx in [0, 5, 7, 10] else ("▲" if idx in [9] else "")
+        arrow = des_fixations.get(planet, "")
         svg.append(f'<text x="34" y="{y_pos}" fill="#DC2626" font-size="20" font-weight="600" text-anchor="middle">{symbol}</text>')
         svg.append(f'<text x="76" y="{y_pos - 1}" fill="#DC2626" font-size="16.5" font-weight="600" text-anchor="middle">{gate}.{line}</text>')
         if arrow:
@@ -330,7 +334,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         gate, line = pers_gates.get(planet, (0, 0))
         symbol = PLANET_SYMBOLS.get(planet, "")
         y_pos = y_start + idx * row_gap
-        arrow = "▲" if idx in [0, 2, 3, 7] else ("▼" if idx in [12] else "")
+        arrow = pers_fixations.get(planet, "")
         if arrow:
             svg.append(f'<text x="568" y="{y_pos - 2}" fill="#0F172A" font-size="13" font-weight="900" text-anchor="middle">{arrow}</text>')
         svg.append(f'<text x="604" y="{y_pos - 1}" fill="#0F172A" font-size="16.5" font-weight="600" text-anchor="middle">{gate}.{line}</text>')
