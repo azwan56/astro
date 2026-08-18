@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人类图学习基地 - 全球城市高精排盘系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --accent-orange: #F97316;
+            --accent-purple: #8B5CF6;
+            --accent-pink: #EC4899;
+            --accent-green: #10B981;
+            --border-color: #E2E8F0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+        body { background-color: #F1F5F9; color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; }
+
+        header {
+            padding: 1.2rem 2rem;
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        header h1 { font-size: 1.3rem; color: #0F172A; font-weight: 700; }
+        .header-actions { display: flex; gap: 0.6rem; align-items: center; }
+        .btn-tier { padding: 0.4rem 0.85rem; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-quarter { background: linear-gradient(135deg, #38BDF8, #0284C7); color: white; box-shadow: 0 2px 4px rgba(2,132,199,0.25); }
+        .btn-annual { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; box-shadow: 0 2px 4px rgba(245,158,11,0.3); }
+
+        main { flex: 1; max-width: 1240px; width: 100%; margin: 0 auto; padding: 1.5rem; display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; }
+
+        @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+        .panel-card { background: var(--bg-card); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+
+        .form-group { margin-bottom: 1rem; position: relative; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.4rem; font-weight: 600; }
+        .form-control { width: 100%; padding: 0.65rem 0.85rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+        .form-control:focus { border-color: var(--accent-orange); }
+
+        .city-dropdown {
+            position: absolute; top: 100%; left: 0; width: 100%; max-height: 260px; overflow-y: auto;
+            background: white; border: 1px solid #CBD5E1; border-radius: 8px; box-shadow: 0 10px 20px -3px rgba(0,0,0,0.15);
+            z-index: 100; display: none; margin-top: 2px;
+        }
+        .city-item { padding: 0.65rem 0.85rem; font-size: 0.88rem; color: #334155; cursor: pointer; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+        .city-item:hover { background: #FFF7ED; color: #EA580C; }
+        .city-tag { font-size: 0.72rem; background: #EEF2FF; color: #4F46E5; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: bold; }
+
+        .city-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .chip { background: #F8FAFC; border: 1px solid var(--border-color); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; }
+        .chip:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+        .btn-submit { width: 100%; padding: 0.8rem; margin-top: 0.8rem; background: #F97316; border: none; border-radius: 8px; color: white; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        .btn-poster { width: 100%; padding: 0.65rem; margin-top: 0.6rem; background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 8px; color: #4F46E5; font-weight: 700; font-size: 0.9rem; cursor: pointer; text-align: center; }
+
+        .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin: 1rem 0; }
+        @media (max-width: 600px) { .module-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .mod-btn {
+            background: #FFFFFF; border: 1px solid #F97316; color: #F97316; padding: 0.55rem 0.3rem;
+            border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.2s; position: relative;
+        }
+
+        .mod-btn.active, .mod-btn:hover { background: #F97316; color: #FFFFFF; }
+        .mod-btn.ai-btn { border-color: #8B5CF6; color: #8B5CF6; }
+        .mod-btn.ai-btn.active, .mod-btn.ai-btn:hover { background: #8B5CF6; color: #FFFFFF; }
+        .mod-btn.transit-btn { border-color: #0284C7; color: #0284C7; }
+        .mod-btn.transit-btn.active, .mod-btn.transit-btn:hover { background: #0284C7; color: #FFFFFF; }
+        .mod-btn .badge-price { position: absolute; top: -6px; right: -6px; background: #EF4444; color: white; font-size: 0.68rem; padding: 0.1rem 0.3rem; border-radius: 999px; font-weight: bold; }
+
+        .display-area { display: flex; flex-direction: column; gap: 1.5rem; }
+        .bodygraph-card { background: #FFFFFF; border-radius: 20px; border: 1px solid var(--border-color); padding: 1.6rem; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,0.06); max-width: 680px; margin: 0 auto; width: 100%; }
+
+        .detail-card { background: #FFFFFF; border-radius: 12px; border: 1px solid var(--border-color); padding: 1.4rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; }
+        .detail-card h3 { font-size: 1.1rem; color: #0F172A; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+        .detail-card p { font-size: 0.95rem; color: #334155; line-height: 1.7; }
+
+        .report-block { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; }
+        .report-block h4 { font-size: 0.98rem; color: #0F172A; margin-bottom: 0.4rem; font-weight: 700; }
+        .report-block p { font-size: 0.9rem; color: #334155; line-height: 1.6; }
+
+        .hook-block { background: linear-gradient(135deg, #FFF7ED, #FEF3C7); border: 1px stroke #FDE68A; border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; border-left: 4px solid #F59E0B; }
+        .hook-block h4 { font-size: 0.98rem; color: #B45309; margin-bottom: 0.4rem; font-weight: 700; }
+        .hook-block p { font-size: 0.9rem; color: #78350F; line-height: 1.6; }
+
+        .paywall-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 1.5rem; text-align: center; z-index: 10;
+        }
+        .paywall-overlay h4 { font-size: 1.1rem; color: #0F172A; margin-bottom: 0.4rem; font-weight: 700; }
+        .paywall-overlay p { font-size: 0.88rem; color: #64748B; margin-bottom: 1rem; }
+        .btn-unlock { background: linear-gradient(135deg, #F97316, #EA580C); color: white; padding: 0.65rem 1.5rem; border-radius: 999px; font-weight: 700; border: none; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 10px rgba(249,115,22,0.3); }
+
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .modal-box { background: white; border-radius: 20px; width: 90%; max-width: 460px; padding: 1.8rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; }
+        .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; font-size: 1.2rem; color: #94A3B8; cursor: pointer; }
+
+        .tier-card { border: 2px solid #E2E8F0; border-radius: 12px; padding: 0.9rem 1.1rem; margin-top: 0.6rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s; }
+        .tier-card:hover, .tier-card.active { border-color: #0284C7; background: #F0F9FF; }
+
+        .pay-btn-confirm { width: 100%; padding: 0.9rem; margin-top: 1.2rem; background: #10B981; border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 1.05rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>人类图学习基地 · 全球城市高精地理排盘系统</h1>
+        <div class="header-actions">
+            <button class="btn-tier btn-quarter" onclick="openPayModal('VIP_QUARTER', '💳 升级 季度卡 VIP (￥99/季)', 99)">💳 升级 季度卡 VIP</button>
+            <button class="btn-tier btn-annual" onclick="openPayModal('VIP_ANNUAL', '👑 升级 年卡 VIP (￥299/年)', 299)">👑 升级 年卡 VIP</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="panel-card">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem;">排盘参数与预测日期</h2>
+            
+            <div class="form-group">
+                <label>出生日期</label>
+                <input type="date" id="birth_date" class="form-control" value="1995-08-18">
+            </div>
+            
+            <div class="form-group">
+                <label>出生时间</label>
+                <input type="time" id="birth_time" class="form-control" value="14:30">
+            </div>
+
+            <!-- Future Date Forecast Selector -->
+            <div class="form-group">
+                <label style="color:#0284C7; font-weight:700;">📅 天候预测目标日期 (季度卡/年卡VIP专享)</label>
+                <input type="date" id="transit_date" class="form-control" value="2026-08-18" style="border-color:#0284C7;">
+            </div>
+
+            <!-- Refined Global City Search Bar with Weighted Autocomplete -->
+            <div class="form-group">
+                <label style="color:#F97316; font-weight:700;">🌍 全球城市（支持中英文/拼音）</label>
+                <input type="text" id="city_search" class="form-control" placeholder="输入城市名称（如：北京、上海、太仓、香港、纽约、Tokyo）" onfocus="handleCityInput(this.value)" oninput="handleCityInput(this.value)">
+                <div class="city-dropdown" id="cityDropdown"></div>
+            </div>
+
+            <div class="form-group">
+                <label>知名/常用城市快捷选</label>
+                <div class="city-chips">
+                    <span class="chip" onclick="selectCityItem('上海市 (Shanghai)', 31.2304, 121.4737, 'Asia/Shanghai')">上海</span>
+                    <span class="chip" onclick="selectCityItem('北京市 (Beijing)', 39.9042, 116.4074, 'Asia/Shanghai')">北京</span>
+                    <span class="chip" onclick="selectCityItem('广东省 广州市 (Guangzhou)', 23.1291, 113.2644, 'Asia/Shanghai')">广州</span>
+                    <span class="chip" onclick="selectCityItem('广东省 深圳市 (Shenzhen)', 22.5431, 114.0579, 'Asia/Shanghai')">深圳</span>
+                    <span class="chip" onclick="selectCityItem('香港特别行政区 (Hong Kong)', 22.3193, 114.1694, 'Asia/Hong_Kong')">香港</span>
+                    <span class="chip" onclick="selectCityItem('浙江省 杭州市 (Hangzhou)', 30.2741, 120.1551, 'Asia/Shanghai')">杭州</span>
+                    <span class="chip" onclick="selectCityItem('四川省 成都市 (Chengdu)', 30.5728, 104.0668, 'Asia/Shanghai')">成都</span>
+                    <span class="chip" onclick="selectCityItem('日本 东京 (Tokyo)', 35.6762, 139.6503, 'Asia/Tokyo')">东京</span>
+                    <span class="chip" onclick="selectCityItem('美国 纽约 (New York)', 40.7128, -74.0060, 'America/New_York')">纽约</span>
+                    <span class="chip" onclick="selectCityItem('江苏省 苏州市 太仓市 (Taicang)', 31.4582, 121.1340, 'Asia/Shanghai')">太仓</span>
+                    <span class="chip" onclick="selectCityItem('江苏省 苏州市 昆山市 (Kunshan)', 31.3845, 120.9807, 'Asia/Shanghai')">昆山</span>
+                    <span class="chip" onclick="selectCityItem('浙江省 金华市 义乌市 (Yiwu)', 29.3069, 120.0751, 'Asia/Shanghai')">义乌</span>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+                <div class="form-group">
+                    <label>纬度</label>
+                    <input type="number" step="0.0001" id="latitude" class="form-control" value="31.2304">
+                </div>
+                <div class="form-group">
+                    <label>经度</label>
+                    <input type="number" step="0.0001" id="longitude" class="form-control" value="121.4737">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>IANA 时区</label>
+                <input type="text" id="timezone_str" class="form-control" value="Asia/Shanghai">
+            </div>
+
+            <div class="form-group">
+                <label style="color:#8B5CF6;">🔮 提问/现实困惑关注 (选填)</label>
+                <input type="text" id="user_question" class="form-control" placeholder="例如：如何在职场决策中避免盲目内耗？" value="如何在职场决策中避免盲目内耗？">
+            </div>
+
+            <button class="btn-submit" onclick="submitChart()">生成排盘与预测报告</button>
+            <button class="btn-poster" onclick="openPosterModal()">📸 一键生成朋友圈裂变海报</button>
+        </div>
+
+        <!-- Display Area -->
+        <div class="display-area">
+            <div class="bodygraph-card" id="svg_container">
+                <div style="color: #94A3B8; padding: 3rem;">点击“生成排盘”查看经典 Rave 人体图</div>
+            </div>
+
+            <div class="module-grid">
+                <div class="mod-btn active" onclick="showModule('main')">关键主题 (免费)</div>
+                <div class="mod-btn transit-btn" onclick="showModule('transit')">📅 天候运势预测 <span class="badge-price" style="background:#0284C7;">季度/年VIP</span></div>
+                <div class="mod-btn" onclick="showModule('bridge')" style="border-color:#10B981; color:#10B981;">⚡ 能量桥接诊断 <span class="badge-price" style="background:#10B981;">免费</span></div>
+                <div class="mod-btn ai-btn" onclick="showModule('ai')">🔮 大师综合报告 <span class="badge-price">￥29.9</span></div>
+                <div class="mod-btn" onclick="showModule('phs')">PHS系统 <span class="badge-price">￥9.9</span></div>
+                <div class="mod-btn" onclick="showModule('variables')">多维图层 <span class="badge-price">￥9.9</span></div>
+                <div class="mod-btn" onclick="showModule('psych')">心理特质 <span class="badge-price">￥9.9</span></div>
+                <div class="mod-btn" onclick="showModule('bg5')">赚钱能力 <span class="badge-price">￥9.9</span></div>
+                <div class="mod-btn" onclick="showModule('penta')">团队能力 <span class="badge-price">￥9.9</span></div>
+                <div class="mod-btn" onclick="showModule('love')">爱与关系 <span class="badge-price">￥12.9</span></div>
+                <div class="mod-btn" onclick="showModule('dream')">睡眠梦图 <span class="badge-price">￥12.9</span></div>
+                <div class="mod-btn" onclick="showModule('genekeys')">基因钥匙 <span class="badge-price">￥9.9</span></div>
+            </div>
+
+            <div id="content_area"></div>
+        </div>
+    </main>
+
+    <!-- 5-Tier Commercial Membership收银台 Modal -->
+    <div class="modal-backdrop" id="payModal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closePayModal()">✕</span>
+            <h3 style="font-size:1.2rem; color:#0F172A; text-align:center;" id="payTitle">会员等级权益解锁</h3>
+            <p style="text-align:center; color:#64748B; font-size:0.88rem; margin-top:0.3rem;">选择适合您的商业解锁方案</p>
+            <div style="font-size:2.2rem; font-weight:bold; color:#EA580C; text-align:center; margin:0.8rem 0;" id="payAmount">￥99</div>
+
+            <div id="tierSelectArea">
+                <div class="tier-card" onclick="selectTier('VIP_QUARTER', '💳 季度卡 VIP (天候运势+全场解锁)', 99)">
+                    <div>
+                        <strong style="color:#0284C7;">💳 季度卡 VIP (推荐)</strong>
+                        <p style="font-size:0.78rem; color:#64748B;">每日/未来流日能量运势无限查 + 90天全场解锁</p>
+                    </div>
+                    <span style="font-weight:bold; color:#0284C7;">￥99/季</span>
+                </div>
+
+                <div class="tier-card" onclick="selectTier('VIP_ANNUAL', '👑 年卡 VIP (尊享最高权益)', 299)">
+                    <div>
+                        <strong style="color:#D97706;">👑 年卡 VIP (最划算)</strong>
+                        <p style="font-size:0.78rem; color:#64748B;">365天流日天候运势全通 + 专属年卡尊贵标识</p>
+                    </div>
+                    <span style="font-weight:bold; color:#D97706;">￥299/年</span>
+                </div>
+
+                <div class="tier-card" onclick="selectTier('VIP_SINGLE_PASS', '🌟 单次全场 VIP (单盘全解)', 29.9)">
+                    <div>
+                        <strong style="color:#8B5CF6;">🌟 单次全场 VIP</strong>
+                        <p style="font-size:0.78rem; color:#64748B;">解锁本次排盘的 12 大高级深度报告</p>
+                    </div>
+                    <span style="font-weight:bold; color:#8B5CF6;">￥29.9/次</span>
+                </div>
+            </div>
+
+            <button class="pay-btn-confirm" onclick="confirmPayment()">模拟完成微信支付 (立即升级解锁)</button>
+        </div>
+    </div>
+
+    <!-- Poster 朋友圈裂变海报 Modal -->
+    <div class="modal-backdrop" id="posterModal">
+        <div class="modal-box" style="max-width:380px; text-align:center; padding:1.5rem;">
+            <span class="modal-close" onclick="closePosterModal()">✕</span>
+            <h3 style="font-size:1.1rem; color:#0F172A;">📸 专属人类图朋友圈海报</h3>
+            <p style="font-size:0.85rem; color:#64748B; margin-top:0.3rem;">长按保存图片分享朋友圈，邀请好友测试</p>
+
+            <div id="posterPreview" style="background: radial-gradient(circle, #1E1B4B, #0F172A); border-radius:16px; padding:1rem; margin-top:1rem; color:white; border:1px solid #38BDF8;">
+                <h4 id="posterType" style="font-size:1.2rem; color:#FBBF24;">纯粹生产者 · 5/1</h4>
+                <p id="posterStrategy" style="font-size:0.85rem; margin-top:0.3rem; opacity:0.8;">策略：等待荐骨的回应 | 权威：荐骨权威</p>
+                <div id="posterBodyGraph" style="margin: 0.8rem 0;"></div>
+                <div style="background:rgba(255,255,255,0.1); border-radius:8px; padding:0.6rem; font-size:0.75rem; color:#94A3B8;">
+                    扫码探索属于你的专属人类图能量蓝图
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let searchDebounceTimer = null;
+
+        function handleCityInput(query) {
+            clearTimeout(searchDebounceTimer);
+            const q = query ? query.trim() : '';
+            searchDebounceTimer = setTimeout(() => {
+                fetchCityResults(q);
+            }, 60);
+        }
+
+        async function fetchCityResults(query) {
+            const dropdown = document.getElementById('cityDropdown');
+            try {
+                const res = await fetch(`/api/v1/geo/search?q=${encodeURIComponent(query)}`);
+                const data = await res.json();
+                const matches = data.results || [];
+
+                if (matches.length === 0) {
+                    dropdown.innerHTML = '<div class="city-item" style="color:#94A3B8;">未匹配到城市，可手动输入经纬度</div>';
+                } else {
+                    dropdown.innerHTML = matches.map(c => `
+                        <div class="city-item" onclick="selectCityItem('${c.name}', ${c.lat}, ${c.lng}, '${c.tz}')">
+                            <span><strong>${c.name}</strong></span>
+                            <span class="city-tag">${c.country || '地区'}</span>
+                        </div>
+                    `).join('');
+                }
+                dropdown.style.display = 'block';
+            } catch (e) {
+                console.error('Geo search error:', e);
+            }
+        }
+
+        function selectCityItem(cityName, lat, lng, tz) {
+            document.getElementById('city_search').value = cityName;
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+            document.getElementById('timezone_str').value = tz;
+            document.getElementById('cityDropdown').style.display = 'none';
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.form-group')) {
+                document.getElementById('cityDropdown').style.display = 'none';
+            }
+        });
+
+        let currentData = null;
+        let unlockedModules = new Set();
+        let userTier = 'FREE';
+        let currentPayMod = null;
+
+        async function submitChart() {
+            const birth_date = document.getElementById('birth_date').value;
+            const birth_time = document.getElementById('birth_time').value;
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+            const timezone_str = document.getElementById('timezone_str').value;
+            const user_question = document.getElementById('user_question').value;
+            const transit_date = document.getElementById('transit_date').value;
+
+            try {
+                const response = await fetch('/api/v1/chart/calculate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        birth_date, birth_time, latitude, longitude, timezone_str, user_question, transit_date,
+                        unlocked_modules: Array.from(unlockedModules),
+                        user_tier: userTier
+                    })
+                });
+
+                if (!response.ok) return;
+
+                currentData = await response.json();
+                document.getElementById('svg_container').innerHTML = currentData.svg_bodygraph;
+
+                showModule('main');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function openPayModal(modKey, title, price) {
+            currentPayMod = modKey;
+            document.getElementById('payTitle').innerText = title;
+            document.getElementById('payAmount').innerText = '￥' + price;
+            document.getElementById('payModal').style.display = 'flex';
+        }
+
+        function selectTier(modKey, title, price) {
+            currentPayMod = modKey;
+            document.getElementById('payTitle').innerText = title;
+            document.getElementById('payAmount').innerText = '￥' + price;
+        }
+
+        function closePayModal() {
+            document.getElementById('payModal').style.display = 'none';
+        }
+
+        function confirmPayment() {
+            if (currentPayMod) {
+                if (currentPayMod === 'VIP_QUARTER') {
+                    userTier = 'VIP_QUARTER';
+                    unlockedModules.add('transit');
+                    ['phs', 'variables', 'psych', 'dream', 'love', 'bg5', 'penta', 'ai', 'genekeys'].forEach(m => unlockedModules.add(m));
+                } else if (currentPayMod === 'VIP_ANNUAL') {
+                    userTier = 'VIP_ANNUAL';
+                    unlockedModules.add('transit');
+                    ['phs', 'variables', 'psych', 'dream', 'love', 'bg5', 'penta', 'ai', 'genekeys'].forEach(m => unlockedModules.add(m));
+                } else if (currentPayMod === 'VIP_SINGLE_PASS') {
+                    userTier = 'VIP_SINGLE_PASS';
+                    ['phs', 'variables', 'psych', 'dream', 'love', 'bg5', 'penta', 'ai', 'genekeys'].forEach(m => unlockedModules.add(m));
+                } else {
+                    userTier = 'SINGLE_ITEM';
+                    unlockedModules.add(currentPayMod);
+                }
+            }
+            closePayModal();
+            showModule(currentPayMod || 'main');
+        }
+
+        function openPosterModal() {
+            if (!currentData) return;
+            document.getElementById('posterType').innerText = currentData.coaching_summary.type_cn + ' · ' + currentData.profile;
+            document.getElementById('posterStrategy').innerText = '策略：' + currentData.coaching_summary.strategy_cn + ' | 权威：' + currentData.coaching_summary.authority_cn;
+            document.getElementById('posterBodyGraph').innerHTML = currentData.svg_bodygraph;
+            document.getElementById('posterModal').style.display = 'flex';
+        }
+
+        function closePosterModal() {
+            document.getElementById('posterModal').style.display = 'none';
+        }
+
+        function renderPaywallOverlay(modKey, title, price) {
+            return `
+            <div class="paywall-overlay">
+                <h4>🔒 解锁${title} (￥${price})</h4>
+                <p>获得 5 维深度教练级专享解读报告</p>
+                <button class="btn-unlock" onclick="openPayModal('${modKey}', '解锁${title}', ${price})">立即解锁 (￥${price})</button>
+            </div>`;
+        }
+
+        function renderTransitPaywallOverlay() {
+            return `
+            <div class="paywall-overlay" style="background: rgba(15, 23, 42, 0.88); color:white;">
+                <h4 style="color:#FBBF24; font-size:1.25rem;">🔒 每日/未来流日天候运势预测 (VIP专享)</h4>
+                <p style="color:#CBD5E1; max-width:320px; margin-top:0.4rem;">【📅 天候运势预测】仅限 <strong>季度卡 VIP (￥99/季)</strong> 或 <strong>年卡 VIP (￥299/年)</strong> 用户专享使用。</p>
+                <div style="display:flex; gap:0.8rem; margin-top:1.2rem;">
+                    <button class="btn-unlock" style="background:linear-gradient(135deg, #0284C7, #0369A1);" onclick="openPayModal('VIP_QUARTER', '💳 升级 季度卡 VIP (￥99/季)', 99)">💳 升级 季度卡 VIP (￥99)</button>
+                    <button class="btn-unlock" style="background:linear-gradient(135deg, #F59E0B, #D97706);" onclick="openPayModal('VIP_ANNUAL', '👑 升级 年卡 VIP (￥299/年)', 299)">👑 升级 年卡 VIP (￥299)</button>
+                </div>
+            </div>`;
+        }
+
+        function renderVipUpgradeFooter() {
+            return `
+            <div style="margin-top:1.5rem; background: linear-gradient(135deg, #0F172A, #1E1B4B); border-radius:14px; padding:1.2rem 1.4rem; color:white; border:1px solid #38BDF8; box-shadow:0 4px 12px rgba(2, 132, 199, 0.25);">
+                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+                    <div>
+                        <h4 style="font-size:1.05rem; color:#FBBF24; margin-bottom:0.3rem;">📅 开启每日/重要时刻的能量护航 (VIP 专享)</h4>
+                        <p style="font-size:0.88rem; color:#CBD5E1; line-height:1.5;">
+                            单次解盘仅为您揭示了本命盘静态蓝图。流日天体过境每天都在变化！<br>
+                            升级为 <strong>季度卡 VIP (￥99/季)</strong> 或 <strong>年卡 VIP (￥299/年)</strong>，解锁【📅 每日/未来天候运势预测】，让大师心理教练在您人生的每一个关键时刻与商务决策日为您护航。
+                        </p>
+                    </div>
+                    <div style="display:flex; gap:0.6rem;">
+                        <button onclick="openPayModal('VIP_QUARTER', '💳 升级 季度卡 VIP (￥99/季)', 99)" style="background:linear-gradient(135deg, #0284C7, #0369A1); color:white; border:none; padding:0.6rem 1.1rem; border-radius:999px; font-weight:bold; cursor:pointer; font-size:0.85rem; box-shadow:0 2px 6px rgba(2,132,199,0.4);">💳 升级 季度VIP (￥99)</button>
+                        <button onclick="openPayModal('VIP_ANNUAL', '👑 升级 年卡 VIP (￥299/年)', 299)" style="background:linear-gradient(135deg, #F59E0B, #D97706); color:white; border:none; padding:0.6rem 1.1rem; border-radius:999px; font-weight:bold; cursor:pointer; font-size:0.85rem; box-shadow:0 2px 6px rgba(245,158,11,0.4);">👑 升级 年卡VIP (￥299)</button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function showModule(modKey) {
+            if (!currentData) return;
+
+            document.querySelectorAll('.mod-btn').forEach(btn => btn.classList.remove('active'));
+            event && event.target && event.target.classList.add('active');
+
+            const container = document.getElementById('content_area');
+            let html = '';
+
+            if (modKey === 'main') {
+                const rm = currentData.rich_main_theme || {};
+                html = `
+                <div class="detail-card">
+                    <h3><span>🌟 关键主题与能量蓝图概览 (免费专享)</span> <span style="color:#F97316; font-weight:bold;">[基础引流解盘]</span></h3>
+                    
+                    <div class="report-block">
+                        <h4>1. 能量蓝图与灵魂底层架构</h4>
+                        <p style="font-weight:700; color:#EA580C; font-size:1rem;">能量类型：${rm.type_cn} · 人生角色 ${rm.profile}</p>
+                        <p style="margin-top:0.4rem;">${rm.arch_insight}</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>2. 内在导航与人生决策指南针</h4>
+                        <p style="font-weight:700; color:#0284C7; font-size:1rem;">内在权威：${rm.authority_cn} | 策略：${rm.strategy_cn}</p>
+                        <p style="margin-top:0.4rem;">${rm.auth_insight}</p>
+                    </div>
+
+                    <div class="hook-block">
+                        <h4>🔥 隐秘悬念 1：人际吸引与能量桥接断裂盲区</h4>
+                        <p>${rm.hook_split}</p>
+                        <div style="margin-top:0.6rem;">
+                            <button class="chip" style="background:#F59E0B; color:white; font-weight:bold; border:none;" onclick="showModule('bridge')">👉 查看 ⚡ 能量桥接诊断 (免费)</button>
+                            <button class="chip" style="background:#EC4899; color:white; font-weight:bold; border:none; margin-left:0.4rem;" onclick="showModule('love')">🔒 解锁 💖 爱与关系 (￥12.9)</button>
+                        </div>
+                    </div>
+
+                    <div class="hook-block">
+                        <h4>🔥 隐秘悬念 2：身体潜意识与夜间梦境秘密</h4>
+                        <p>${rm.hook_phs}</p>
+                        <div style="margin-top:0.6rem;">
+                            <button class="chip" style="background:#F97316; color:white; font-weight:bold; border:none;" onclick="showModule('phs')">🔒 解锁 🍎 PHS原始健康 (￥9.9)</button>
+                            <button class="chip" style="background:#0284C7; color:white; font-weight:bold; border:none; margin-left:0.4rem;" onclick="showModule('dream')">🔒 解锁 🌙 睡眠梦图 (￥12.9)</button>
+                        </div>
+                    </div>
+
+                    <div class="hook-block">
+                        <h4>🔥 隐秘悬念 3：商业变现定位与团队柱石</h4>
+                        <p>${rm.hook_bg5}</p>
+                        <div style="margin-top:0.6rem;">
+                            <button class="chip" style="background:#0284C7; color:white; font-weight:bold; border:none;" onclick="showModule('bg5')">🔒 解锁 💼 BG5 商业定位 (￥9.9)</button>
+                            <button class="chip" style="background:#D97706; color:white; font-weight:bold; border:none; margin-left:0.4rem;" onclick="showModule('penta')">🔒 解锁 👥 BG5 Penta 团队 (￥9.9)</button>
+                        </div>
+                    </div>
+
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'transit') {
+                const isTransitUnlocked = (userTier === 'VIP_QUARTER' || userTier === 'VIP_ANNUAL');
+                const tr = currentData.daily_transit_coaching || {};
+                html = `
+                <div class="detail-card" style="position:relative; border-color:#0284C7; background: linear-gradient(135deg, rgba(2, 132, 199, 0.04), rgba(56, 189, 248, 0.04));">
+                    ${!isTransitUnlocked ? renderTransitPaywallOverlay() : ''}
+                    <h3><span>📅 ${tr.transit_date || '今日'} 人类图能量天候与运势预测</span> <span style="color:#0284C7; font-weight:bold;">[季度/年卡VIP专享]</span></h3>
+                    
+                    <div class="report-block">
+                        <h4>1. 核心流日天候焦点 (Solar & Lunar Transit)</h4>
+                        <p style="font-size:0.95rem; font-weight:bold; color:#0284C7;">${tr.daily_theme}</p>
+                        <p style="margin-top:0.4rem; font-size:0.85rem; color:#64748B;">✦ 太阳过境：${tr.sun_transit} | ✦ 月亮过境：${tr.moon_transit} | ✦ 地球过境：${tr.earth_transit}</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>2. 流日临时接通通道与高能洞察 (Temporary Channels)</h4>
+                        <p style="white-space: pre-line;">${tr.temp_channel_analysis}</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>3. 职场、商业与关键沟通指南</h4>
+                        <p>${tr.career_guide}</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>4. 今日非自我与情绪防雷提醒</h4>
+                        <p style="color:#DC2626;">${tr.not_self_warning}</p>
+                    </div>
+
+                    <div class="report-block" style="background:#EEF2FF; border-color:#C7D2FE;">
+                        <h4 style="color:#4F46E5;">5. 大师心理教练每日能量赋能金句</h4>
+                        <p style="font-weight:bold; color:#3730A3;">${tr.daily_affirmation}</p>
+                    </div>
+                </div>`;
+            } else if (modKey === 'bridge') {
+                const b = currentData.energy_bridge_diagnostics;
+                html = `
+                <div class="detail-card" style="border-color:#10B981;">
+                    <h3><span>⚡ 能量流转与桥接制约诊断报告 (Bridge & Conditioning)</span> <span style="color:#10B981; font-weight:bold;">[拓扑算法引擎]</span></h3>
+                    
+                    <div class="report-block">
+                        <h4>1. 定义类型与能量闭合度诊断</h4>
+                        <p>${b.definition_type_cn}</p>
+                        <p style="margin-top:0.5rem; font-size:0.88rem; color:#059669;">✦ 识别出的连通板块数：${b.subgraph_count} 个区间</p>
+                        <div style="margin-top:0.4rem;">
+                            ${b.components_names.map(c => `<p style="font-size:0.85rem; color:#047857;">• ${c}</p>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>2. 桥接卦门与通道盲区诊断 (Bridge Gates Trait)</h4>
+                        <p style="font-size:0.88rem; color:#475569; margin-bottom:0.4rem;">【诊断说明】：当体内存在分裂板块时，能够跨板块架起闭合桥梁的未连通通道即为“桥接通道”。您在人际关系中容易被拥有这些卦门的人无意识吸引：</p>
+                        ${b.bridge_details.map(bd => `<p style="margin-top:0.3rem;">${bd}</p>`).join('')}
+                    </div>
+
+                    <div class="report-block">
+                        <h4>3. 红黑双重系统觉察 (Red Design vs Black Personality)</h4>
+                        <p>${b.red_black_analysis}</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>4. 悬门能级与渴望诊断 (Hanging Gates)</h4>
+                        <p>您体内激活了 <strong>${b.hanging_gates_count} 个悬门 (Hanging Gates)</strong>（如：${b.hanging_gates.slice(0,6).join('号, ')}号卦门等）。悬门持续散发着寻找另一半卦门的能量引力。</p>
+                    </div>
+
+                    <div class="report-block">
+                        <h4>5. 自动化去制约 (De-conditioning) 落地指南</h4>
+                        <p>${b.deconditioning_playbook}</p>
+                    </div>
+
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'ai') {
+                const isUnlocked = unlockedModules.has('ai') || userTier.startsWith('VIP');
+                const aiReport = currentData.ai_coaching_report || {};
+                const text = aiReport.report_markdown || '正在生成解读...';
+                const formattedHtml = text.replace(/### (.*?)\n/g, '<h3 style="color:#8B5CF6; margin: 1.2rem 0 0.6rem 0; font-size:1.15rem; border-bottom:1px solid #DDD6FE; padding-bottom:0.3rem;">$1</h3>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                html = `
+                <div class="detail-card" style="position:relative; background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3);">
+                    ${!isUnlocked ? renderPaywallOverlay('ai', '全维度大师心理教练综合报告', 29.9) : ''}
+                    <h3><span>🔮 全维度大师心理教练综合报告</span> <span style="font-size:0.8rem; color:#8B5CF6; font-weight:normal;">[${aiReport.engine || '全维大师综合解盘'}]</span></h3>
+                    <div style="margin-top:0.8rem; line-height:1.8; color:#334155;">${formattedHtml}</div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'phs') {
+                const isUnlocked = unlockedModules.has('phs') || userTier.startsWith('VIP');
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('phs', 'PHS 身体养生与调养系统', 9.9) : ''}
+                    <h3>🍎 PHS 身体养生与高维营养 5 维深度报告</h3>
+                    <div class="report-block">
+                        <h4>1. Color 消化模式与食物摄入律</h4>
+                        <p style="font-weight:700; color:#EA580C;">${currentData.phs_digestion.name_cn}</p>
+                        <p style="margin-top:0.3rem;">${currentData.phs_digestion.desc_cn}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. Tone 潜意识认知与大脑供能模式</h4>
+                        <p>Tone ${currentData.phs_digestion.tone} 号调性：感知驱动潜意识物理细胞汲取能量。</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>3. Color 居住与工作物理环境指南</h4>
+                        <p style="font-weight:700; color:#0284C7;">${currentData.phs_environment.name_cn}</p>
+                        <p style="margin-top:0.3rem;">${currentData.phs_environment.desc_cn}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 身体去制约与线粒体活力恢复建议</h4>
+                        <p>${currentData.phs_deconditioning}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 专属 PHS 高维养生日程表</h4>
+                        <p>${currentData.phs_schedule}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'variables') {
+                const isUnlocked = unlockedModules.has('variables') || userTier.startsWith('VIP');
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('variables', '多维图层与 4 大变量剖析', 9.9) : ''}
+                    <h3>📐 多维图层与 4 大变量 5 维高维认知报告</h3>
+                    <div class="report-block">
+                        <h4>1. 四大变量箭头 (4 Variables) 矩阵定位</h4>
+                        <p>变量图层代码：<strong style="color:#4F46E5;">${currentData.variable_code}</strong></p>
+                        <p style="margin-top:0.3rem;">${currentData.variable_desc}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. 大脑认知模式深度解构 (Brain Arrow)</h4>
+                        <p>${currentData.var_brain_deep}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 身体与防卫模式解构 (Body Arrow)</h4>
+                        <p>${currentData.var_body_deep}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 环境观察与视角模式解构 (Nodes)</h4>
+                        <p>${currentData.var_env_deep}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 去制约与脑力不焦虑落地练习</h4>
+                        <p>放弃死记硬背与过度计划的执念，全然信任您的天然认知图层运作。</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'psych') {
+                const isUnlocked = unlockedModules.has('psych') || userTier.startsWith('VIP');
+                const psych = currentData.psychological_traits;
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('psych', '心理特质与情绪解毒', 9.9) : ''}
+                    <h3>🧠 心理特质与范式解毒 5 维深度报告</h3>
+                    <div class="report-block">
+                        <h4>1. 头脑与逻辑思维范式诊断</h4>
+                        <p style="font-weight:700; color:#7C3AED;">${psych.cognition_style}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. 情绪心理波浪与敏感度解析</h4>
+                        ${psych.traits_list.map(t => `<p style="margin-top:0.3rem;"><strong>💡 ${t.topic}：</strong>${t.desc}</p>`).join('')}
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 灵感压力与头脑焦虑去制约</h4>
+                        <p>学会分辨哪些思想属于外界，放掉不属于您的心理担子。</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 心理防卫机制与内在安全感构建</h4>
+                        <p>${psych.defense_mechanism}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 心理健康自愈与正念接地觉察</h4>
+                        <p>${psych.self_healing}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'bg5') {
+                const isUnlocked = unlockedModules.has('bg5') || userTier.startsWith('VIP');
+                const bg5 = currentData.bg5_business;
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('bg5', 'BG5 商业定位与赚钱报告', 9.9) : ''}
+                    <h3>💼 BG5 商业定位与财富变现 5 维深度报告</h3>
+                    <div class="report-block">
+                        <h4>1. BG5 商业定位与核心商业角色</h4>
+                        <p style="font-weight:700; color:#0284C7;">${bg5.business_role}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. 9 大中心商业技能映射与变现天赋</h4>
+                        ${bg5.strengths_list.map(s => `<p style="margin-top:0.3rem;">✦ ${s}</p>`).join('')}
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 商业竞争防守与财富避坑策略</h4>
+                        <p>${bg5.wealth_strategy}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 最佳商业合作与雇佣模式</h4>
+                        <p>${bg5.cooperation_model}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 商业变现落地行动 3 步走法则</h4>
+                        <p>${bg5.wealth_action}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'penta') {
+                const isUnlocked = unlockedModules.has('penta') || userTier.startsWith('VIP');
+                const penta = currentData.penta_team;
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('penta', 'BG5 Penta 团队能力报告', 9.9) : ''}
+                    <h3>👥 BG5 Penta 团队能力与 3-5 人生态 5 维报告</h3>
+                    <div class="report-block">
+                        <h4>1. BG5 Penta 小团队生态位诊断</h4>
+                        <p style="font-weight:700; color:#D97706;">主导角色：${penta.penta_role}</p>
+                        <p style="margin-top:0.3rem;">团队能力：${penta.all_roles.join(' · ')}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. Penta 12 大商业柱石卦门深入解构</h4>
+                        <p>激活柱石卦门：${penta.active_penta_gates.join(', ')} 号卦门</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 团队能量短板与补位策略</h4>
+                        <p>${penta.penta_shortage}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 团队内耗防御指南</h4>
+                        <p>${penta.penta_defense}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 高效 3-5 人精英团队协同法则</h4>
+                        <p>${penta.penta_building}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'genekeys') {
+                const isUnlocked = unlockedModules.has('genekeys') || userTier.startsWith('VIP');
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('genekeys', '基因钥匙 64卦门三阶能级', 9.9) : ''}
+                    <h3>🧬 基因钥匙 64 卦门三阶能级 5 维深度报告</h3>
+                    ${currentData.gene_keys.map(gk => `
+                        <div class="report-block">
+                            <h4>${gk.gate}号基因钥匙：${gk.shadow} ➔ ${gk.gift} ➔ ${gk.siddhi}</h4>
+                            <p style="color:#DC2626; margin-top:0.3rem;">${gk.shadow_desc}</p>
+                            <p style="color:#16A34A; margin-top:0.3rem;">${gk.gift_desc}</p>
+                            <p style="color:#9333EA; margin-top:0.3rem;">${gk.siddhi_desc}</p>
+                        </div>
+                    `).join('')}
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'love') {
+                const isUnlocked = unlockedModules.has('love') || userTier.startsWith('VIP');
+                const love = currentData.love_relationships;
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('love', '5维爱与关系深度报告', 12.9) : ''}
+                    <h3>💖 爱与关系 5 维深度心理教练解盘报告 (Love & Relationships)</h3>
+                    <div class="report-block">
+                        <h4>1. G 中心爱之磁场主题诊断</h4>
+                        <p style="font-weight:700; color:#BE185D;">${love.love_theme}</p>
+                        <p style="margin-top:0.3rem;">${love.magnetism_desc}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. G 中心神圣爱之卦门精准拆解</h4>
+                        ${love.active_love_gates.map(lg => `<p style="margin-top:0.3rem;"><strong>🌸 ${lg.name_cn}：</strong>${lg.desc_cn}</p>`).join('')}
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 亲密关系合盘电磁吸引力法则</h4>
+                        <p>${love.electromagnetic_physics}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 爱中的非自我防御陷阱与心理解毒剂</h4>
+                        <p>${love.love_shadow}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 亲密关系沟通与情感边界法则</h4>
+                        <p>${love.love_communication}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            } else if (modKey === 'dream') {
+                const isUnlocked = unlockedModules.has('dream') || userTier.startsWith('VIP');
+                const dream = currentData.dream_rave;
+                html = `
+                <div class="detail-card" style="position:relative;">
+                    ${!isUnlocked ? renderPaywallOverlay('dream', '5维睡眠梦图与潜意识报告', 12.9) : ''}
+                    <h3>🌙 睡眠梦图 5 维深度心理教练解盘报告 (Dream Rave)</h3>
+                    <div class="report-block">
+                        <h4>1. 梦境主导人格领域诊断</h4>
+                        <p style="font-weight:700; color:#0284C7;">${dream.dream_realm}</p>
+                        <p style="margin-top:0.3rem;">${dream.realm_desc}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>2. 激活的 13 核心梦图神符卦门解析</h4>
+                        ${dream.gate_analyses.map(ga => `<p style="margin-top:0.3rem;">${ga}</p>`).join('')}
+                    </div>
+                    <div class="report-block">
+                        <h4>3. 梦境阴影与生存焦虑转化心理学</h4>
+                        <p>${dream.shadow_transformation}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>4. 物理睡眠磁场独立与电荷复位指南</h4>
+                        <p>${dream.sleep_physics}</p>
+                    </div>
+                    <div class="report-block">
+                        <h4>5. 梦境灵感捕捉协议 (Dream Journal Protocol)</h4>
+                        <p>${dream.dream_journal}</p>
+                    </div>
+                    ${renderVipUpgradeFooter()}
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        window.onload = submitChart;
+    </script>
+</body>
+</html>
