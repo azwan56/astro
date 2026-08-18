@@ -286,10 +286,12 @@
             }, 60);
         }
 
+        const API_BASE = window.location.pathname.endsWith('/') ? window.location.pathname.slice(0, -1) : window.location.pathname;
+
         async function fetchCityResults(query) {
             const dropdown = document.getElementById('cityDropdown');
             try {
-                const res = await fetch(`/api/v1/geo/search?q=${encodeURIComponent(query)}`);
+                const res = await fetch(`${API_BASE}/api/v1/geo/search?q=${encodeURIComponent(query)}`);
                 const data = await res.json();
                 const matches = data.results || [];
 
@@ -338,7 +340,7 @@
             const transit_date = document.getElementById('transit_date').value;
 
             try {
-                const response = await fetch('/api/v1/chart/calculate', {
+                const response = await fetch(`${API_BASE}/api/v1/chart/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

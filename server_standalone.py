@@ -63,6 +63,10 @@ class HumanDesignHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed_url = urllib.parse.urlparse(self.path)
         clean_path = parsed_url.path
+        if clean_path.startswith("/astro"):
+            clean_path = clean_path[6:]
+            if not clean_path:
+                clean_path = "/"
 
         if clean_path == "/" or clean_path.startswith("/index"):
             self.send_response(200)
@@ -91,7 +95,14 @@ class HumanDesignHandler(BaseHTTPRequestHandler):
         content_len = int(self.headers.get('Content-Length', 0))
         body_data = self.rfile.read(content_len)
 
-        if self.path == "/api/v1/chart/calculate":
+        parsed_url = urllib.parse.urlparse(self.path)
+        clean_path = parsed_url.path
+        if clean_path.startswith("/astro"):
+            clean_path = clean_path[6:]
+            if not clean_path:
+                clean_path = "/"
+
+        if clean_path == "/api/v1/chart/calculate":
             try:
                 req_json = json.loads(body_data.decode('utf-8'))
                 birth_date_str = req_json.get("birth_date", "1990-06-15")
@@ -280,7 +291,9 @@ class HumanDesignHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 
-def run_server(port=8000):
+def run_server(port=None):
+    if port is None:
+        port = int(os.environ.get("PORT", 8008))
     server_address = ('127.0.0.1', port)
     httpd = HTTPServer(server_address, HumanDesignHandler)
     print(f"Server running at http://127.0.0.1:{port}/")
@@ -288,4 +301,4 @@ def run_server(port=8000):
 
 
 if __name__ == "__main__":
-    run_server(8000)
+    run_server()
