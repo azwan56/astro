@@ -100,6 +100,9 @@ CENTERS_DATA = {
     }
 }
 
+CENTERS_CURVED = CENTERS_DATA
+CENTERS_LAYOUT = CENTERS_DATA
+
 CENTER_NODE_ANCHORS = {
     "Head": (320, 135), "Ajna": (320, 205), "Throat": (320, 315),
     "G_Center": (320, 434), "Heart": (418, 466), "Spleen": (196, 582),
