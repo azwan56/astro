@@ -274,7 +274,50 @@ GEO_DATA_LIST = [
     {"name": "澳大利亚 悉尼 (Sydney)", "short": "悉尼", "pinyin": "xini", "abbr": "syd", "lat": -33.8688, "lng": 151.2093, "tz": "Australia/Sydney", "country": "澳大利亚", "weight": 95},
     {"name": "澳大利亚 墨尔本 (Melbourne)", "short": "墨尔本", "pinyin": "moerben", "abbr": "mel", "lat": -37.8136, "lng": 144.9631, "tz": "Australia/Melbourne", "country": "澳大利亚", "weight": 90},
     {"name": "新西兰 奥克兰 (Auckland)", "short": "奥克兰", "pinyin": "aokelan", "abbr": "akl", "lat": -36.8485, "lng": 174.7633, "tz": "Pacific/Auckland", "country": "新西兰", "weight": 85},
-    {"name": "阿联酋 迪拜 (Dubai)", "short": "迪拜", "pinyin": "dibai", "abbr": "dxb", "lat": 25.2048, "lng": 55.2708, "tz": "Asia/Dubai", "country": "阿联酋", "weight": 90}
+    {"name": "阿联酋 迪拜 (Dubai)", "short": "迪拜", "pinyin": "dibai", "abbr": "dxb", "lat": 25.2048, "lng": 55.2708, "tz": "Asia/Dubai", "country": "阿联酋", "weight": 90},
+
+    # ================= 印度全量重点都会与灵性圣城 (India Complete) =================
+    {"name": "印度 新德里/德里 (New Delhi / Delhi)", "short": "新德里", "pinyin": "xindeli", "abbr": "del", "lat": 28.6139, "lng": 77.2090, "tz": "Asia/Kolkata", "country": "印度", "weight": 96},
+    {"name": "印度 孟买 (Mumbai / Bombay)", "short": "孟买", "pinyin": "mengmai", "abbr": "bom", "lat": 19.0760, "lng": 72.8777, "tz": "Asia/Kolkata", "country": "印度", "weight": 95},
+    {"name": "印度 班加罗尔 (Bengaluru / Bangalore)", "short": "班加罗尔", "pinyin": "banjialuoer", "abbr": "blr", "lat": 12.9716, "lng": 77.5946, "tz": "Asia/Kolkata", "country": "印度", "weight": 92},
+    {"name": "印度 瓦拉纳西 (Varanasi / 恒河圣城/鹿野苑)", "short": "瓦拉纳西", "pinyin": "walanaxi", "abbr": "vns", "lat": 25.3176, "lng": 82.9739, "tz": "Asia/Kolkata", "country": "印度", "weight": 92},
+    {"name": "印度 菩提伽耶 (Bodh Gaya / 佛陀成道圣地)", "short": "菩提伽耶", "pinyin": "putijiaye", "abbr": "btjy", "lat": 24.6961, "lng": 84.9869, "tz": "Asia/Kolkata", "country": "印度", "weight": 92},
+    {"name": "印度 瑞诗凯诗 (Rishikesh / 世界瑜伽之都)", "short": "瑞诗凯诗", "pinyin": "ruishikaishi", "abbr": "rsks", "lat": 30.0869, "lng": 78.2676, "tz": "Asia/Kolkata", "country": "印度", "weight": 92},
+    {"name": "印度 达兰萨拉 (Dharamsala / 麦罗肯吉)", "short": "达兰萨拉", "pinyin": "dalansala", "abbr": "dlsl", "lat": 32.2190, "lng": 76.3234, "tz": "Asia/Kolkata", "country": "印度", "weight": 90},
+    {"name": "印度 浦那 (Pune / 奥修中心)", "short": "浦那", "pinyin": "puna", "abbr": "pn", "lat": 18.5204, "lng": 73.8567, "tz": "Asia/Kolkata", "country": "印度", "weight": 90},
+    {"name": "印度 斋普尔 (Jaipur / 粉红之城)", "short": "斋普尔", "pinyin": "zhaipuer", "abbr": "zpe", "lat": 26.9124, "lng": 75.7873, "tz": "Asia/Kolkata", "country": "印度", "weight": 88},
+    {"name": "印度 加尔各答 (Kolkata / Calcutta)", "short": "加尔各答", "pinyin": "jiaergada", "abbr": "jegd", "lat": 22.5726, "lng": 88.3639, "tz": "Asia/Kolkata", "country": "印度", "weight": 88},
+    {"name": "印度 金奈/钦奈 (Chennai / Madras)", "short": "金奈", "pinyin": "jinnai", "abbr": "jn", "lat": 13.0827, "lng": 80.2707, "tz": "Asia/Kolkata", "country": "印度", "weight": 88},
+    {"name": "印度 海得拉巴 (Hyderabad)", "short": "海得拉巴", "pinyin": "haidelaba", "abbr": "hdlb", "lat": 17.3850, "lng": 78.4867, "tz": "Asia/Kolkata", "country": "印度", "weight": 88},
+    {"name": "印度 阿格拉 (Agra / 泰姬陵)", "short": "阿格拉", "pinyin": "agela", "abbr": "agl", "lat": 27.1767, "lng": 78.0081, "tz": "Asia/Kolkata", "country": "印度", "weight": 88},
+    {"name": "印度 果阿 (Goa)", "short": "果阿", "pinyin": "guoa", "abbr": "ga", "lat": 15.2993, "lng": 74.1240, "tz": "Asia/Kolkata", "country": "印度", "weight": 85},
+    {"name": "印度 艾哈迈达巴德 (Ahmedabad)", "short": "艾哈迈达巴德", "pinyin": "aihemaidabade", "abbr": "ahmd", "lat": 23.0225, "lng": 72.5714, "tz": "Asia/Kolkata", "country": "印度", "weight": 82},
+    {"name": "印度 科钦 (Kochi / 喀拉拉邦)", "short": "科钦", "pinyin": "keqin", "abbr": "kq", "lat": 9.9312, "lng": 76.2673, "tz": "Asia/Kolkata", "country": "印度", "weight": 82},
+    {"name": "印度 乌代布尔 (Udaipur / 白色之城)", "short": "乌代布尔", "pinyin": "wudaibuer", "abbr": "wdbe", "lat": 24.5854, "lng": 73.7125, "tz": "Asia/Kolkata", "country": "印度", "weight": 82},
+    {"name": "印度 焦特布尔 (Jodhpur / 蓝色之城)", "short": "焦特布尔", "pinyin": "jiaotebuer", "abbr": "jtbe", "lat": 26.2389, "lng": 73.0243, "tz": "Asia/Kolkata", "country": "印度", "weight": 82},
+
+    # ================= 尼泊尔重点城市与圣地 (Nepal Complete) =================
+    {"name": "尼泊尔 加德满都 (Kathmandu)", "short": "加德满都", "pinyin": "jiademandu", "abbr": "ktm/jdmd", "lat": 27.7172, "lng": 85.3240, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 95},
+    {"name": "尼泊尔 博卡拉 (Pokhara / 鱼尾峰徒步圣地)", "short": "博卡拉", "pinyin": "bokala", "abbr": "pkr/bkl", "lat": 28.2096, "lng": 83.9856, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 92},
+    {"name": "尼泊尔 蓝毗尼 (Lumbini / 佛陀诞生地)", "short": "蓝毗尼", "pinyin": "lanpini", "abbr": "lmb/lpn", "lat": 27.4840, "lng": 83.2760, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 92},
+    {"name": "尼泊尔 巴克塔普尔/巴德岗 (Bhaktapur)", "short": "巴德岗", "pinyin": "badegang", "abbr": "bdg", "lat": 27.6710, "lng": 85.4298, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 88},
+    {"name": "尼泊尔 帕坦/拉利特普尔 (Patan / Lalitpur)", "short": "帕坦", "pinyin": "patan", "abbr": "pt", "lat": 27.6766, "lng": 85.3252, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 85},
+    {"name": "尼泊尔 奇特旺/奇旺 (Chitwan / Bharatpur)", "short": "奇特旺", "pinyin": "qitewang", "abbr": "qtw", "lat": 27.6833, "lng": 84.4333, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 85},
+    {"name": "尼泊尔 纳加阔特 (Nagarkot / 喜马拉雅观景台)", "short": "纳加阔特", "pinyin": "najiakuote", "abbr": "njkt", "lat": 27.7174, "lng": 85.5204, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 82},
+    {"name": "尼泊尔 贾纳克布尔 (Janakpur)", "short": "贾纳克布尔", "pinyin": "jianakebuer", "abbr": "jnkb", "lat": 26.7288, "lng": 85.9244, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 80},
+    {"name": "尼泊尔 达兰 (Dharan)", "short": "达兰", "pinyin": "dalan", "abbr": "dl", "lat": 26.8124, "lng": 87.2836, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 80},
+    {"name": "尼泊尔 比拉德讷格尔 (Biratnagar)", "short": "比拉德讷格尔", "pinyin": "biladenageer", "abbr": "bld", "lat": 26.4525, "lng": 87.2718, "tz": "Asia/Kathmandu", "country": "尼泊尔", "weight": 80},
+
+    # ================= 不丹/斯里兰卡/东南亚重点都会 =================
+    {"name": "不丹 廷布 (Thimphu)", "short": "廷布", "pinyin": "tingbu", "abbr": "tb", "lat": 27.4728, "lng": 89.6393, "tz": "Asia/Thimphu", "country": "不丹", "weight": 88},
+    {"name": "不丹 帕罗 (Paro / 虎穴寺)", "short": "帕罗", "pinyin": "paluo", "abbr": "pl", "lat": 27.4286, "lng": 89.4164, "tz": "Asia/Thimphu", "country": "不丹", "weight": 85},
+    {"name": "斯里兰卡 科伦坡 (Colombo)", "short": "科伦坡", "pinyin": "kelunpo", "abbr": "klp", "lat": 6.9271, "lng": 79.8612, "tz": "Asia/Colombo", "country": "斯里兰卡", "weight": 88},
+    {"name": "斯里兰卡 康提 (Kandy / 佛牙寺)", "short": "康提", "pinyin": "kangti", "abbr": "kt", "lat": 7.2906, "lng": 80.6337, "tz": "Asia/Colombo", "country": "斯里兰卡", "weight": 85},
+    {"name": "印度尼西亚 巴厘岛 (Bali / Denpasar / 乌布 Ubud)", "short": "巴厘岛", "pinyin": "balidao", "abbr": "bld", "lat": -8.3405, "lng": 115.0920, "tz": "Asia/Makassar", "country": "印度尼西亚", "weight": 92},
+    {"name": "印度尼西亚 雅加达 (Jakarta)", "short": "雅加达", "pinyin": "yajiada", "abbr": "yjd", "lat": -6.2088, "lng": 106.8456, "tz": "Asia/Jakarta", "country": "印度尼西亚", "weight": 90},
+    {"name": "柬埔寨 暹粒 (Siem Reap / 吴哥窟)", "short": "暹粒", "pinyin": "xianli", "abbr": "xl", "lat": 13.3671, "lng": 103.8448, "tz": "Asia/Phnom_Penh", "country": "柬埔寨", "weight": 90},
+    {"name": "越南 河内 (Hanoi)", "short": "河内", "pinyin": "henei", "abbr": "hn", "lat": 21.0285, "lng": 105.8542, "tz": "Asia/Ho_Chi_Minh", "country": "越南", "weight": 88},
+    {"name": "越南 胡志明市 (Ho Chi Minh City)", "short": "胡志明市", "pinyin": "huzhiming", "abbr": "hzm", "lat": 10.8231, "lng": 106.6297, "tz": "Asia/Ho_Chi_Minh", "country": "越南", "weight": 88}
 ]
 
 
@@ -304,11 +347,12 @@ def search_cities(query: str, limit: int = 15) -> list:
         abbr = item.get("abbr", "")
         weight = item.get("weight", 50)
 
+        # Extract english words
         # 1. Exact Match
         if q == short_lower or q == pinyin or q == abbr:
             exact_matches.append((item, 1000 + weight))
         # 2. Prefix Match
-        elif short_lower.startswith(q) or pinyin.startswith(q) or abbr.startswith(q) or name_lower.startswith(q):
+        elif short_lower.startswith(q) or pinyin.startswith(q) or abbr.startswith(q) or name_lower.startswith(q) or any(w.startswith(q) for w in name_lower.replace('(', ' ').replace(')', ' ').replace('/', ' ').split()):
             prefix_matches.append((item, 500 + weight))
         # 3. Substring Match
         elif q in name_lower or q in pinyin or q in abbr:
