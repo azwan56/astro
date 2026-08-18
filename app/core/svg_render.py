@@ -1,31 +1,30 @@
 """
-Grand & High-Definition Classic Clean Rave BodyGraph SVG Renderer
+Grand Master Edition Rave BodyGraph SVG Renderer
 Features:
-- Expanded High-Definition Canvas (Width = 640, Height = 960, True Center Axis = 320)
-- Zero Number Overlap Architecture: Every gate badge has >20px~35px dedicated clearance.
-- Left Solid Red Planet Column (#E50014) with White Glyph & Arrow indicators
-- Right Solid Dark Charcoal Planet Column (#2B2129) with White Glyph & Arrow indicators
-- Perfectly Symmetrically Placed Top Variables (Color & Tone Arrows for Left Design & Right Personality)
-- Exact Authentic Center Colors & Perfectly Spaced Geometry:
-    * Head: Defined Yellow (#FFE600), Undefined White (#FFFFFF)
-    * Ajna: Defined Green (#48BB78), Undefined White (#FFFFFF)
-    * Throat: Defined Warm Tan (#DCA776), Undefined White (#FFFFFF)
-    * G Center: Defined Vivid Yellow (#FFE600), Undefined White (#FFFFFF)
-    * Heart: Defined Red (#E50014), Undefined White (#FFFFFF)
-    * Sacral: Defined Rich Terracotta (#9E4731), Undefined White (#FFFFFF)
-    * Spleen / Solar Plexus / Root: Defined Warm Tan (#DCA776), Undefined White (#FFFFFF)
-- Gate Nodes:
-    * Active Gates: Solid Black Circle (#000000) with White Text (#FFFFFF)
-    * Inactive Gates: Plain Dark Grey Text (#374151) without circle
-- Channels:
-    * Defined Red (Design): Solid #E50014 (Width 8px)
-    * Defined Black (Personality): Solid #1F1A24 (Width 8px)
-    * Defined Both: Striped Red (#E50014) and Black (#1F1A24)
-    * Undefined: Subtle double-line / soft light-grey guide tracks (#D1D5DB)
+- Premium Visual Balance & Proportions (Width = 640, Height = 960, True Center Axis = 320)
+- Zero Number Overlap: Meticulously placed 64 gate badge coordinates with generous clearance.
+- Left Design Column: Solid Crimson Red (#DC2626) rounded cards with high-contrast white astrological glyphs and retrograde indicators.
+- Right Personality Column: Deep Slate Charcoal (#18181B) rounded cards with high-contrast white astrological glyphs.
+- Top Variables (PHS & Variable Arrows): Beautifully boxed Color/Tone cards with directional arrows.
+- Dual-Layer Channel System:
+    * Subtle double-track base guides (#CBD5E1 / #FFFFFF)
+    * Smooth de Casteljau subdivided hanging half-channels & fully connected active channels (#DC2626, #18181B, Striped Red/Black).
+- 9 Energy Centers:
+    * Head: Canary Gold (#FACC15 / #FFFFFF)
+    * Ajna: Emerald Green (#22C55E / #FFFFFF)
+    * Throat: Warm Sand Amber (#D97706 / #FFFFFF)
+    * G Center: Canary Gold (#FACC15 / #FFFFFF)
+    * Heart / Ego: Crimson Red (#DC2626 / #FFFFFF)
+    * Sacral: Rich Terracotta Carmine (#EA580C / #FFFFFF)
+    * Spleen / Solar Plexus / Root: Warm Sand Amber (#D97706 / #FFFFFF)
+- Gate Badges:
+    * Active: Solid Deep Charcoal (#18181B) with bold white number (#FFFFFF)
+    * Inactive: Warm Champagne Cream (#FEF9C3) with gold border (#EAB308) and crisp charcoal number (#0F172A)
+- Sacred Geometry: Subtle radiating golden ratio mandala arcs and aura contours.
 """
 
 from typing import Dict, List, Set, Tuple
-from app.core.hd_extended_modules import calculate_color_tone
+import re
 
 PLANET_SYMBOLS = {
     "Sun": "☉", "Earth": "⊕", "Moon": "☽", "North_Node": "☊", "South_Node": "☋",
@@ -41,73 +40,70 @@ PLANET_ORDER = [
 
 WIDTH = 640
 HEIGHT = 960
-CENTER_X = 320  # True Center Axis
+CENTER_X = 320
 
-# 9 Centers Coordinate Geometry (Width = 640, Height = 960, Center = 320)
+# 9 Centers Coordinate Geometry
 CENTERS_DATA = {
     "Head": {
         "type": "polygon",
-        "points": "320,80 270,155 370,155",
-        "defined_color": "#FFE600",
+        "points": "320,74 266,154 374,154",
+        "defined_color": "#FACC15",
         "undefined_color": "#FFFFFF"
     },
     "Ajna": {
         "type": "polygon",
-        "points": "270,175 370,175 320,250",
-        "defined_color": "#48BB78",
+        "points": "266,174 374,174 320,254",
+        "defined_color": "#22C55E",
         "undefined_color": "#FFFFFF"
     },
     "Throat": {
         "type": "rect",
-        "rect": (275, 275, 90, 80, 10),
-        "defined_color": "#DCA776",
+        "rect": (268, 274, 104, 82, 10),
+        "defined_color": "#D97706",
         "undefined_color": "#FFFFFF"
     },
     "G_Center": {
         "type": "polygon",
-        "points": "320,380 375,435 320,490 265,435",
-        "defined_color": "#FFE600",
+        "points": "320,374 378,434 320,494 262,434",
+        "defined_color": "#FACC15",
         "undefined_color": "#FFFFFF"
     },
     "Heart": {
         "type": "polygon",
-        "points": "385,445 435,445 410,490",
-        "defined_color": "#E50014",
+        "points": "392,442 444,442 418,490",
+        "defined_color": "#DC2626",
         "undefined_color": "#FFFFFF"
     },
     "Spleen": {
         "type": "polygon",
-        "points": "170,485 225,580 170,675",
-        "defined_color": "#DCA776",
+        "points": "164,482 228,582 164,682",
+        "defined_color": "#D97706",
         "undefined_color": "#FFFFFF"
     },
     "Solar_Plexus": {
         "type": "polygon",
-        "points": "470,485 415,580 470,675",
-        "defined_color": "#DCA776",
+        "points": "476,482 412,582 476,682",
+        "defined_color": "#D97706",
         "undefined_color": "#FFFFFF"
     },
     "Sacral": {
         "type": "rect",
-        "rect": (275, 545, 90, 80, 10),
-        "defined_color": "#9E4731",
+        "rect": (268, 544, 104, 82, 10),
+        "defined_color": "#EA580C",
         "undefined_color": "#FFFFFF"
     },
     "Root": {
         "type": "rect",
-        "rect": (275, 675, 90, 85, 10),
-        "defined_color": "#DCA776",
+        "rect": (268, 674, 104, 86, 10),
+        "defined_color": "#D97706",
         "undefined_color": "#FFFFFF"
     }
 }
 
-CENTERS_CURVED = CENTERS_DATA
-CENTERS_LAYOUT = CENTERS_DATA
-
 CENTER_NODE_ANCHORS = {
     "Head": (320, 135), "Ajna": (320, 205), "Throat": (320, 315),
-    "G_Center": (320, 435), "Heart": (410, 467), "Spleen": (195, 580),
-    "Solar_Plexus": (445, 580), "Sacral": (320, 585), "Root": (320, 715)
+    "G_Center": (320, 434), "Heart": (418, 466), "Spleen": (196, 582),
+    "Solar_Plexus": (444, 582), "Sacral": (320, 585), "Root": (320, 717)
 }
 
 # Guaranteed Non-Overlapping Gate Badge Coordinates (>20px clearance)
@@ -177,9 +173,6 @@ CHANNEL_PATHS = {
     (38, 28): "M 286,738 C 230,720 200,695 188,642",
     (54, 32): "M 286,715 C 235,695 205,675 202,618"
 }
-
-
-import re
 
 
 def split_path_half(path_str: str) -> Tuple[str, str]:
@@ -252,42 +245,47 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     pers_node_arr = "⬅" if pers_node_sub["arrow"] == "Left" else "➡"
 
     svg = []
-    # 1. High-Definition Canvas with Safe Padding (viewBox 0 -15 640 985)
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -15 {WIDTH} {HEIGHT + 25}" width="100%" height="100%" style="background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, sans-serif;">')
+    # 1. High-Definition Master Canvas with Safe Padding
+    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -18 {WIDTH} {HEIGHT + 30}" width="100%" height="100%" style="background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif;">')
 
-    # 2. Defs & Striped Patterns for Red/Black Dual Channels
+    # 2. Defs: Striped Patterns & Filters
     svg.append('''
     <defs>
         <pattern id="striped-red-black" width="14" height="14" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="0" y2="14" stroke="#E50014" stroke-width="7" />
-            <line x1="7" y1="0" x2="7" y2="14" stroke="#1F1A24" stroke-width="7" />
+            <line x1="0" y1="0" x2="0" y2="14" stroke="#DC2626" stroke-width="7" />
+            <line x1="7" y1="0" x2="7" y2="14" stroke="#18181B" stroke-width="7" />
         </pattern>
+        <filter id="soft-shadow" x="-5%" y="-5%" width="110%" height="110%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.06"/>
+        </filter>
     </defs>
     ''')
 
-    # 3. Delicate Sacred Body Geometry & Radiating Mandala Aura Arcs
-    svg.append('<g id="sacred-geometry-lines" opacity="0.35" stroke="#CBD5E1" stroke-width="1.4" fill="none">')
-    svg.append('<circle cx="320" cy="435" r="140" stroke-dasharray="4 4" />')
-    svg.append('<circle cx="320" cy="435" r="195" stroke-dasharray="3 5" />')
-    svg.append('<path d="M 270,155 C 225,310 170,440 170,485" />')
-    svg.append('<path d="M 370,155 C 415,310 470,440 470,485" />')
-    svg.append('<path d="M 170,675 C 182,740 240,780 320,780 C 400,780 458,740 470,675" />')
+    # 3. Sacred Body Geometry & Radiating Mandala Aura Arcs
+    svg.append('<g id="sacred-geometry-lines" opacity="0.45" stroke="#CBD5E1" stroke-width="1.3" fill="none">')
+    svg.append('<circle cx="320" cy="434" r="145" stroke-dasharray="4 4" />')
+    svg.append('<circle cx="320" cy="434" r="205" stroke-dasharray="3 6" />')
+    svg.append('<path d="M 266,154 C 220,310 164,440 164,482" />')
+    svg.append('<path d="M 374,154 C 420,310 476,440 476,482" />')
+    svg.append('<path d="M 164,682 C 178,745 238,785 320,785 C 402,785 462,745 476,682" />')
     svg.append('</g>')
 
-    # 4. Top Variables / Color & Tone (Red on Left, Dark Charcoal on Right)
-    # Left Red (Design)
-    svg.append('<text x="210" y="65" fill="#E50014" font-size="12.5" font-weight="700" text-anchor="middle">Color</text>')
-    svg.append('<text x="255" y="86" fill="#E50014" font-size="12.5" font-weight="700" text-anchor="middle">Tone</text>')
-    svg.append(f'<text x="232" y="110" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">{des_sun_arr}  {des_sun_c}  {des_sun_t}</text>')
-    svg.append(f'<text x="232" y="134" fill="#E50014" font-size="14.5" font-weight="900" text-anchor="middle">{des_node_arr}  {des_node_c}  {des_node_t}</text>')
+    # 4. Top 4 Variables Cards (Color & Tone)
+    # Left Red Card (Design Variables)
+    svg.append('<rect x="186" y="48" width="94" height="96" rx="8" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="0.9" />')
+    svg.append('<text x="210" y="66" fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">COLOR</text>')
+    svg.append('<text x="256" y="66" fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">TONE</text>')
+    svg.append(f'<text x="233" y="94" fill="#DC2626" font-size="15" font-weight="900" text-anchor="middle">{des_sun_arr}  {des_sun_c}  {des_sun_t}</text>')
+    svg.append(f'<text x="233" y="124" fill="#DC2626" font-size="15" font-weight="900" text-anchor="middle">{des_node_arr}  {des_node_c}  {des_node_t}</text>')
 
-    # Right Charcoal (Personality)
-    svg.append('<text x="430" y="65" fill="#4B5563" font-size="12.5" font-weight="700" text-anchor="middle">Color</text>')
-    svg.append('<text x="385" y="86" fill="#4B5563" font-size="12.5" font-weight="700" text-anchor="middle">Tone</text>')
-    svg.append(f'<text x="408" y="110" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_sun_t}  {pers_sun_c}  {pers_sun_arr}</text>')
-    svg.append(f'<text x="408" y="134" fill="#1F1A24" font-size="14.5" font-weight="900" text-anchor="middle">{pers_node_t}  {pers_node_c}  {pers_node_arr}</text>')
+    # Right Charcoal Card (Personality Variables)
+    svg.append('<rect x="360" y="48" width="94" height="96" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="0.9" />')
+    svg.append('<text x="384" y="66" fill="#64748B" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">TONE</text>')
+    svg.append('<text x="430" y="66" fill="#64748B" font-size="11" font-weight="700" text-anchor="middle" letter-spacing="0.5">COLOR</text>')
+    svg.append(f'<text x="407" y="94" fill="#18181B" font-size="15" font-weight="900" text-anchor="middle">{pers_sun_t}  {pers_sun_c}  {pers_sun_arr}</text>')
+    svg.append(f'<text x="407" y="124" fill="#18181B" font-size="15" font-weight="900" text-anchor="middle">{pers_node_t}  {pers_node_c}  {pers_node_arr}</text>')
 
-    # 5. Left Solid Red Column (Design 13 Planets) - X in [12, 96], Width = 84
+    # 5. Left Solid Red Column (Design 13 Planets) - X in [14, 102], Width = 88
     y_start = 55
     row_h = 32
     row_gap = 3
@@ -296,21 +294,21 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         symbol = PLANET_SYMBOLS.get(planet, "")
         y_pos = y_start + idx * (row_h + row_gap)
         arrow = "▼" if idx in [5, 7, 12] else ""
-        svg.append(f'<rect x="12" y="{y_pos}" width="84" height="{row_h}" rx="3" fill="#E50014" />')
-        svg.append(f'<text x="24" y="{y_pos + 21}" fill="#FFFFFF" font-size="15" font-weight="bold">{symbol}</text>')
-        svg.append(f'<text x="84" y="{y_pos + 21}" fill="#FFFFFF" font-size="14" font-weight="bold" text-anchor="end">{gate}.{line} {arrow}</text>')
+        svg.append(f'<rect x="14" y="{y_pos}" width="88" height="{row_h}" rx="5" fill="#DC2626" />')
+        svg.append(f'<text x="26" y="{y_pos + 21}" fill="#FFFFFF" font-size="15.5" font-weight="bold">{symbol}</text>')
+        svg.append(f'<text x="90" y="{y_pos + 21}" fill="#FFFFFF" font-size="14.5" font-weight="bold" text-anchor="end">{gate}.{line} {arrow}</text>')
 
-    # 6. Right Solid Dark Charcoal Column (Personality 13 Planets) - X in [544, 628], Width = 84
+    # 6. Right Solid Dark Charcoal Column (Personality 13 Planets) - X in [538, 626], Width = 88
     for idx, planet in enumerate(PLANET_ORDER):
         gate, line = pers_gates.get(planet, (0, 0))
         symbol = PLANET_SYMBOLS.get(planet, "")
         y_pos = y_start + idx * (row_h + row_gap)
         arrow = "▲" if idx in [6] else ("▼" if idx in [12] else "")
-        svg.append(f'<rect x="544" y="{y_pos}" width="84" height="{row_h}" rx="3" fill="#2B2129" />')
-        svg.append(f'<text x="556" y="{y_pos + 21}" fill="#FFFFFF" font-size="14" font-weight="bold">{gate}.{line} {arrow}</text>')
-        svg.append(f'<text x="616" y="{y_pos + 21}" fill="#FFFFFF" font-size="15" font-weight="bold" text-anchor="end">{symbol}</text>')
+        svg.append(f'<rect x="538" y="{y_pos}" width="88" height="{row_h}" rx="5" fill="#18181B" />')
+        svg.append(f'<text x="550" y="{y_pos + 21}" fill="#FFFFFF" font-size="14.5" font-weight="bold">{gate}.{line} {arrow}</text>')
+        svg.append(f'<text x="614" y="{y_pos + 21}" fill="#FFFFFF" font-size="15.5" font-weight="bold" text-anchor="end">{symbol}</text>')
 
-    # 7. Render All 36 Channels (Full Guide Tracks + Active Full/Half Hanging Channels)
+    # 7. Render All 36 Channels
     from app.data.hd_topology import CHANNELS_DATA
 
     # Layer 7.1: Underlying Full Double Guide Tracks
@@ -325,7 +323,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="7" stroke-linecap="round" fill="none" />')
         svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="4.2" stroke-linecap="round" fill="none" />')
 
-    # Layer 7.2: Active Colored Channel Halves (Personality Black / Design Red / Both Striped)
+    # Layer 7.2: Active Colored Channel Halves
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -335,7 +333,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
             p2 = CENTER_NODE_ANCHORS[c2]
             path_d = f"M {p1[0]},{p1[1]} L {p2[0]},{p2[1]}"
 
-        # Determine if path_d starts near g1 or g2
+        # Adaptive Euclidean distance assignment
         coords = [float(x) for x in re.findall(r'[-+]?(?:\d*\.\d+|\d+)', path_d)]
         start_pt = (coords[0], coords[1])
         pos1 = GATE_POS[g1]
@@ -352,52 +350,52 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
             half_1 = half_b
             half_2 = half_a
 
-        # Gate 1 activation (colored on half_1)
+        # Gate 1 activation
         is_pers_1 = g1 in pers_gate_set
         is_des_1 = g1 in des_gate_set
         if is_pers_1 and is_des_1:
-            svg.append(f'<path d="{half_1}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
-            svg.append(f'<path d="{half_1}" stroke="#1F1A24" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
         elif is_des_1:
-            svg.append(f'<path d="{half_1}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="square" fill="none" />')
         elif is_pers_1:
-            svg.append(f'<path d="{half_1}" stroke="#1F1A24" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="7.5" stroke-linecap="square" fill="none" />')
 
-        # Gate 2 activation (colored on half_2)
+        # Gate 2 activation
         is_pers_2 = g2 in pers_gate_set
         is_des_2 = g2 in des_gate_set
         if is_pers_2 and is_des_2:
-            svg.append(f'<path d="{half_2}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
-            svg.append(f'<path d="{half_2}" stroke="#1F1A24" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="square" fill="none" />')
         elif is_des_2:
-            svg.append(f'<path d="{half_2}" stroke="#E50014" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="square" fill="none" />')
         elif is_pers_2:
-            svg.append(f'<path d="{half_2}" stroke="#1F1A24" stroke-width="7.5" stroke-linecap="square" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="7.5" stroke-linecap="square" fill="none" />')
 
     # 8. Render The 9 Energy Centers
     for c_name, c_info in CENTERS_DATA.items():
         is_def = c_name in defined_centers
         fill_color = c_info["defined_color"] if is_def else c_info["undefined_color"]
-        stroke_color = "#222222"
+        stroke_color = "#18181B"
 
         if c_info["type"] == "rect":
             rx, ry, rw, rh, rradius = c_info["rect"]
-            svg.append(f'<rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" rx="{rradius}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2" />')
+            svg.append(f'<rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" rx="{rradius}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2.4" stroke-linejoin="round" filter="url(#soft-shadow)" />')
         elif c_info["type"] == "polygon":
             pts = c_info["points"]
-            svg.append(f'<polygon points="{pts}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2" />')
+            svg.append(f'<polygon points="{pts}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2.4" stroke-linejoin="round" filter="url(#soft-shadow)" />')
 
     # 9. Gate Numbers and Active Badges (Zero Overlap Guaranteed)
     for g_num, (gx, gy) in GATE_POS.items():
         is_active = g_num in active_gates
         if is_active:
-            # Active Gate: Solid Black circle (radius 8.5px) with White bold number
-            svg.append(f'<circle cx="{gx}" cy="{gy}" r="8.5" fill="#000000" stroke="#000000" stroke-width="0.5" />')
-            svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#FFFFFF" font-size="10.2" font-weight="900" text-anchor="middle">{g_num}</text>')
+            # Active Gate: Solid Charcoal Circle with White Bold Text
+            svg.append(f'<circle cx="{gx}" cy="{gy}" r="8.8" fill="#18181B" stroke="#09090B" stroke-width="0.8" />')
+            svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#FFFFFF" font-size="10.5" font-weight="900" text-anchor="middle">{g_num}</text>')
         else:
-            # Inactive Gate: Light Yellow Circle (#FEF08A) with Crisp Black Bold Number (#0F172A)
-            svg.append(f'<circle cx="{gx}" cy="{gy}" r="7.6" fill="#FEF08A" stroke="#EAB308" stroke-width="0.8" />')
-            svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#0F172A" font-size="9.5" font-weight="800" text-anchor="middle">{g_num}</text>')
+            # Inactive Gate: Warm Champagne Cream Circle (#FEF9C3) with Gold Border (#EAB308) and Slate Dark Text (#0F172A)
+            svg.append(f'<circle cx="{gx}" cy="{gy}" r="7.8" fill="#FEF9C3" stroke="#EAB308" stroke-width="0.85" />')
+            svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#0F172A" font-size="9.8" font-weight="800" text-anchor="middle">{g_num}</text>')
 
     svg.append('</svg>')
     return "".join(svg)
