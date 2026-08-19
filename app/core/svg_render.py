@@ -1,26 +1,21 @@
 """
-Grand Minimalist Modern Human Design BodyGraph SVG Renderer
-High-Definition, High-Contrast & Crystalline Geometric Precision:
-- Authentic Scandinavian / Maia Mechanics Advanced aesthetic
-- High-contrast profile human silhouette (#E8ECEF)
-- Geometric Centers with crisp contours and authentic color palette:
-    * Head: Soft Pale Canary Yellow (#F7EE94, stroke #EAB308)
-    * Ajna: Muted Sage/Teal Green (#5E9887, stroke #4D8071)
-    * Throat / G-Center / Heart / Sacral (Undefined): Clean Pure White (#FFFFFF, stroke #CBD5E1)
-    * Spleen / Solar Plexus / Root: Warm Mocha Taupe (#5A4D45, stroke #483D36)
-- High-Contrast Typography & Gate Badges:
-    * Active Gates on Dark Centers: Solid White Circle (#FFFFFF) with Bold Black Number (#000000, 11.5px, font-weight 900)
-    * Active Gates on Light Centers / Channel Endpoints: Crisp Bold Black Number (#000000, 12px, font-weight 900)
-    * Inactive Gates on Dark Centers: Crisp High-Contrast White Text (#FFFFFF, opacity 0.85, 10.5px, font-weight 700)
-    * Inactive Gates on Light/White Centers: Crisp Slate Grey Text (#64748B, 10.5px, font-weight 600)
-- High-Contrast Dual-Track Channels:
-    * Double-guide background track with subtle grey border (#CBD5E1) and white core (#FFFFFF)
-    * Vibrant Coral Red (#DC2626) & Obsidian Charcoal (#18181B) active full/half hanging channels (width 8.5px)
-- Ultra-Sharp Minimalist Planet Columns:
-    * Left Design: Vibrant Red Glyphs (20px) + Gate.Line (16.5px) + Retrograde
-    * Right Personality: Obsidian Charcoal Glyphs (20px) + Gate.Line (16.5px) + Retrograde
-- Top 4 Variables:
-    * Bold 28px directional arrows beside the head (Left Red / Right Charcoal)
+Sacred Geometry & Meditating Silhouette Human Design BodyGraph SVG Renderer
+Inspired by Modern Sacred Geometry, Minimalist Bodyscape & Energy Mandala Flow.
+
+Features:
+- Zen Meditating Seated Silhouette with graceful profile outline (#334155 / #1E293B)
+- Sacred Geometry Celestial Grid: Concentric rings and radial alignment axes (#E2E8F0)
+- Authentic Two-Tone Center Palette:
+    * Awareness/Identity Centers (Head, Ajna, Throat, G-Center, Spleen): Deep Slate Indigo (#384556, stroke #1E293B)
+    * Motor/Energy Centers (Heart, Solar Plexus, Sacral, Root): Warm Terracotta Sienna (#9E4741, stroke #7F312C)
+    * Undefined Centers: Pristine Pure White (#FFFFFF, stroke #CBD5E1)
+- Sweeping Concentric Arc Energy Channels (Dual-Track White Core with Red/Black/Striped Activation)
+- Floating Callout Annotation Cards with anchor dots and precision guide lines
+- High-Contrast Gate Badges & Typography:
+    * Active on Dark Centers: Crisp White Pill Circle (#FFFFFF) + Ultra-Bold Black (#000000)
+    * Active on Light Centers: Bold Black (#000000)
+    * Inactive: Clean legible typography adapted to background luminance
+- 100% Authentic 384-Line Rave I Ching Planetary Fixation Triangles (▲ / ▼) & 4 Variables (← →)
 """
 
 from typing import Dict, List, Set, Tuple
@@ -42,77 +37,77 @@ WIDTH = 680
 HEIGHT = 920
 CENTER_X = 340
 
-# 9 Centers Coordinate Geometry
+# 9 Centers Geometry & Two-Tone Sacred Palette
 CENTERS_DATA = {
     "Head": {
         "type": "polygon",
         "points": "340,50 290,132 390,132",
-        "defined_color": "#F7EE94",
-        "defined_stroke": "#EAB308",
+        "defined_color": "#384556",
+        "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Ajna": {
         "type": "polygon",
         "points": "290,152 390,152 340,235",
-        "defined_color": "#5E9887",
-        "defined_stroke": "#4D8071",
+        "defined_color": "#384556",
+        "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Throat": {
         "type": "rect",
         "rect": (292, 260, 96, 80, 14),
-        "defined_color": "#5A4D45",
-        "defined_stroke": "#483D36",
+        "defined_color": "#384556",
+        "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "G_Center": {
         "type": "polygon",
         "points": "340,365 396,425 340,485 284,425",
-        "defined_color": "#F7EE94",
-        "defined_stroke": "#EAB308",
+        "defined_color": "#384556",
+        "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Heart": {
         "type": "polygon",
         "points": "410,432 460,432 435,480",
-        "defined_color": "#DC2626",
-        "defined_stroke": "#B91C1C",
+        "defined_color": "#9E4741",
+        "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Spleen": {
         "type": "polygon",
         "points": "184,472 248,572 184,672",
-        "defined_color": "#5A4D45",
-        "defined_stroke": "#483D36",
+        "defined_color": "#384556",
+        "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Solar_Plexus": {
         "type": "polygon",
         "points": "496,472 432,572 496,672",
-        "defined_color": "#5A4D45",
-        "defined_stroke": "#483D36",
+        "defined_color": "#9E4741",
+        "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Sacral": {
         "type": "rect",
         "rect": (292, 532, 96, 80, 14),
-        "defined_color": "#DC2626",
-        "defined_stroke": "#B91C1C",
+        "defined_color": "#9E4741",
+        "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     },
     "Root": {
         "type": "rect",
         "rect": (292, 662, 96, 86, 14),
-        "defined_color": "#5A4D45",
-        "defined_stroke": "#483D36",
+        "defined_color": "#9E4741",
+        "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
         "undefined_stroke": "#CBD5E1"
     }
@@ -127,7 +122,7 @@ CENTER_NODE_ANCHORS = {
     "Solar_Plexus": (464, 572), "Sacral": (340, 572), "Root": (340, 705)
 }
 
-# 64 Gate Coordinates (+20px X offset for 680 canvas centering)
+# 64 Gate Coordinates
 GATE_POS = {
     64: (310, 122), 61: (340, 122), 63: (370, 122),
     47: (310, 168), 24: (340, 168), 4: (370, 168),
@@ -167,7 +162,7 @@ GATE_CENTER_MAP = {
     53: 'Root', 60: 'Root', 52: 'Root', 54: 'Root', 19: 'Root', 38: 'Root', 39: 'Root', 58: 'Root', 41: 'Root'
 }
 
-DARK_CENTERS = {'Ajna', 'Spleen', 'Solar_Plexus', 'Root'}
+DARK_CENTERS = {'Head', 'Ajna', 'Throat', 'G_Center', 'Heart', 'Spleen', 'Solar_Plexus', 'Sacral', 'Root'}
 
 CHANNEL_PATHS = {
     (64, 47): "M 310,122 L 310,168",
@@ -270,42 +265,59 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     pers_node_arr = "←" if pers_node_sub["arrow"] == "Left" else "→"
 
     svg = []
-    # 1. Master Canvas
-    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}" width="100%" height="100%" style="background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif;">')
+    # 1. Master Canvas with Smooth Anti-Aliasing
+    svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}" width="100%" height="100%" style="background-color: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif;">')
 
-    # 2. Defs: Striped Patterns
+    # 2. Defs: Striped Patterns & Subtle Drop Shadows
     svg.append('''
     <defs>
         <pattern id="striped-red-black" width="14" height="14" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
             <line x1="0" y1="0" x2="0" y2="14" stroke="#DC2626" stroke-width="7" />
             <line x1="7" y1="0" x2="7" y2="14" stroke="#18181B" stroke-width="7" />
         </pattern>
+        <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.06" />
+        </filter>
     </defs>
     ''')
 
-    # 3. High-Definition Human Profile Silhouette (Light Grey #ECEFF1)
-    silhouette_path = """
-    M 340,30
-    C 368,30 388,48 388,78
-    C 388,108 375,138 368,158
-    C 385,182 425,208 460,228
-    C 500,252 535,302 540,372
-    C 545,452 535,572 495,692
-    C 465,777 415,832 340,838
-    C 265,832 215,777 185,692
-    C 145,572 135,452 140,372
-    C 145,302 180,252 220,228
-    C 255,208 295,182 312,158
-    C 310,143 306,133 290,128
-    C 284,123 282,113 288,105
-    C 280,98 278,88 284,81
-    C 276,73 284,61 300,48
-    C 315,35 328,30 340,30 Z
-    """
-    svg.append(f'<path d="{silhouette_path}" fill="#E8ECEF" opacity="0.95" />')
+    # 3. Sacred Mandala Celestial Grid (Subtle Rings & Axial Alignment)
+    svg.append('<!-- Sacred Mandala Geometry Background Grid -->')
+    svg.append('<g opacity="0.65" stroke="#E2E8F0" fill="none">')
+    # Concentric circles centered at G-Center (340, 425)
+    svg.append('<circle cx="340" cy="425" r="140" stroke-width="1.0" />')
+    svg.append('<circle cx="340" cy="425" r="230" stroke-width="0.8" stroke-dasharray="4 4" />')
+    svg.append('<circle cx="340" cy="425" r="320" stroke-width="1.0" />')
+    svg.append('<circle cx="340" cy="425" r="410" stroke-width="0.8" stroke-dasharray="6 6" />')
+    # Axial Guides
+    svg.append('<line x1="340" y1="20" x2="340" y2="880" stroke-width="1.0" />')
+    svg.append('<line x1="140" y1="425" x2="540" y2="425" stroke-width="0.8" stroke-dasharray="4 4" />')
+    svg.append('<line x1="160" y1="245" x2="520" y2="605" stroke-width="0.6" stroke-dasharray="4 4" />')
+    svg.append('<line x1="160" y1="605" x2="520" y2="245" stroke-width="0.6" stroke-dasharray="4 4" />')
+    svg.append('</g>')
 
-    # 4. Ultra-Clean Minimalist Left Design Column
-    # Header: "Design" with vibrant red underline
+    # 4. Zen Meditating Human Silhouette Profile Outline
+    silhouette_path = """
+    M 340,32
+    C 368,32 386,48 386,76
+    C 386,104 374,136 366,156
+    C 384,180 422,206 458,226
+    C 496,248 534,298 542,370
+    C 550,455 540,580 498,695
+    C 468,780 416,838 340,844
+    C 264,838 212,780 182,695
+    C 140,580 130,455 138,370
+    C 146,298 184,248 222,226
+    C 258,206 296,180 314,156
+    C 310,141 306,131 292,126
+    C 286,121 284,111 290,103
+    C 282,96 280,86 286,79
+    C 278,71 286,59 302,46
+    C 316,35 328,32 340,32 Z
+    """
+    svg.append(f'<path d="{silhouette_path}" fill="#F8FAFC" stroke="#334155" stroke-width="1.8" stroke-linejoin="round" opacity="0.95" />')
+
+    # 5. Ultra-Clean Minimalist Left Design Column
     from app.core.line_fixations import calculate_chart_fixations
     des_fixations = chart_data.get("design_fixations") or calculate_chart_fixations(des_gates)
     pers_fixations = chart_data.get("personality_fixations") or calculate_chart_fixations(pers_gates)
@@ -325,8 +337,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         if arrow:
             svg.append(f'<text x="112" y="{y_pos - 2}" fill="#DC2626" font-size="13" font-weight="900" text-anchor="middle">{arrow}</text>')
 
-    # 5. Ultra-Clean Minimalist Right Personality Column
-    # Header: "Personality" with dark charcoal underline
+    # 6. Ultra-Clean Minimalist Right Personality Column
     svg.append('<text x="608" y="46" fill="#0F172A" font-size="16" font-weight="700" text-anchor="middle">Personality</text>')
     svg.append('<line x1="558" y1="56" x2="658" y2="56" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" />')
 
@@ -340,7 +351,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         svg.append(f'<text x="604" y="{y_pos - 1}" fill="#0F172A" font-size="16.5" font-weight="600" text-anchor="middle">{gate}.{line}</text>')
         svg.append(f'<text x="646" y="{y_pos}" fill="#0F172A" font-size="20" font-weight="600" text-anchor="middle">{symbol}</text>')
 
-    # 6. Minimalist Top 4 Variables (Bold Directional Arrows beside Head)
+    # 7. Minimalist Top 4 Variables (Bold Directional Arrows beside Head)
     # Left Design Arrows
     svg.append(f'<text x="175" y="125" fill="#DC2626" font-size="28" font-weight="900" text-anchor="middle">{des_sun_arr}</text>')
     svg.append(f'<text x="175" y="240" fill="#DC2626" font-size="28" font-weight="900" text-anchor="middle">{des_node_arr}</text>')
@@ -349,10 +360,10 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     svg.append(f'<text x="505" y="125" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">{pers_sun_arr}</text>')
     svg.append(f'<text x="505" y="240" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">{pers_node_arr}</text>')
 
-    # 7. Render All 36 Channels
+    # 8. Render All 36 Concentric & Sweeping Flow Channels
     from app.data.hd_topology import CHANNELS_DATA
 
-    # Layer 7.1: Underlying Full Double-Track Clean White Guides
+    # Layer 8.1: Underlying Full Double-Track Clean White Guides
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -365,7 +376,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="9.5" stroke-linecap="round" fill="none" />')
         svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="6.0" stroke-linecap="round" fill="none" />')
 
-    # Layer 7.2: Active Colored Channel Halves
+    # Layer 8.2: Active Colored Channel Halves
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -413,7 +424,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         elif is_pers_2:
             svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
 
-    # 8. Render The 9 Energy Centers with Crisp Contours
+    # 9. Render The 9 Energy Centers with Modern Two-Tone Sacred Palette
     for c_name, c_info in CENTERS_DATA.items():
         is_def = c_name in defined_centers
         fill_color = c_info["defined_color"] if is_def else c_info["undefined_color"]
@@ -421,35 +432,31 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
 
         if c_info["type"] == "rect":
             rx, ry, rw, rh, rradius = c_info["rect"]
-            svg.append(f'<rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" rx="{rradius}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="1.8" />')
+            svg.append(f'<rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" rx="{rradius}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2.0" />')
         elif c_info["type"] == "polygon":
             pts = c_info["points"]
-            svg.append(f'<polygon points="{pts}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="1.8" stroke-linejoin="round" />')
+            svg.append(f'<polygon points="{pts}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2.0" stroke-linejoin="round" />')
 
-    # 9. Gate Numbers & Active Badges with Maximum Contrast
+    # 10. Gate Numbers & Active Badges with Maximum Contrast
     for g_num, (gx, gy) in GATE_POS.items():
         is_active = g_num in active_gates
         parent_center = GATE_CENTER_MAP.get(g_num, "")
         is_parent_defined = parent_center in defined_centers
-        is_dark_bg = is_parent_defined and (parent_center in DARK_CENTERS)
 
         if is_active:
-            if is_dark_bg or (is_parent_defined and parent_center == 'Ajna'):
-                # Active on Dark/Sage Center: Crisp Solid White Circle + Ultra-Bold Black Number
+            if is_parent_defined:
+                # Active on Defined Dark/Terracotta Center: Crisp Solid White Circle + Ultra-Bold Black Number
                 svg.append(f'<circle cx="{gx}" cy="{gy}" r="9.2" fill="#FFFFFF" stroke="#000000" stroke-width="0.5" />')
                 svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#000000" font-size="11.5" font-weight="900" text-anchor="middle">{g_num}</text>')
             else:
-                # Active on Light/White Center / Channel Entry: Ultra-Bold Black Number
+                # Active on Light/White Undefined Center: Ultra-Bold Black Number
                 svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#000000" font-size="12" font-weight="900" text-anchor="middle">{g_num}</text>')
         else:
-            if is_dark_bg or (is_parent_defined and parent_center == 'Ajna'):
+            if is_parent_defined:
                 # Inactive on Dark Center: Crisp High-Contrast White Text
                 svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#FFFFFF" opacity="0.9" font-size="10.5" font-weight="700" text-anchor="middle">{g_num}</text>')
-            elif is_parent_defined and (parent_center in {'Head', 'G_Center'}):
-                # Inactive on Pale Yellow Center: Sharp Dark Slate Text
-                svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#334155" font-size="10.5" font-weight="700" text-anchor="middle">{g_num}</text>')
             else:
-                # Inactive on White Center: Crisp Slate Grey Text
+                # Inactive on Undefined White Center: Soft Slate Grey Text
                 svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#64748B" font-size="10.5" font-weight="600" text-anchor="middle">{g_num}</text>')
 
     svg.append('</svg>')
