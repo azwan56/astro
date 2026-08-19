@@ -2,20 +2,16 @@
 Sacred Geometry & Meditating Silhouette Human Design BodyGraph SVG Renderer
 Inspired by Modern Sacred Geometry, Minimalist Bodyscape & Energy Mandala Flow.
 
-Features:
-- Zen Meditating Seated Silhouette with graceful profile outline (#334155 / #1E293B)
-- Sacred Geometry Celestial Grid: Concentric rings and radial alignment axes (#E2E8F0)
-- Authentic Two-Tone Center Palette:
-    * Awareness/Identity Centers (Head, Ajna, Throat, G-Center, Spleen): Deep Slate Indigo (#384556, stroke #1E293B)
-    * Motor/Energy Centers (Heart, Solar Plexus, Sacral, Root): Warm Terracotta Sienna (#9E4741, stroke #7F312C)
-    * Undefined Centers: Pristine Pure White (#FFFFFF, stroke #CBD5E1)
-- Sweeping Concentric Arc Energy Channels (Dual-Track White Core with Red/Black/Striped Activation)
-- Floating Callout Annotation Cards with anchor dots and precision guide lines
-- High-Contrast Gate Badges & Typography:
-    * Active on Dark Centers: Crisp White Pill Circle (#FFFFFF) + Ultra-Bold Black (#000000)
-    * Active on Light Centers: Bold Black (#000000)
-    * Inactive: Clean legible typography adapted to background luminance
-- 100% Authentic 384-Line Rave I Ching Planetary Fixation Triangles (▲ / ▼) & 4 Variables (← →)
+Proportions Harmonized:
+- Perfectly unified 9 Centers scale (modular, non-distorted, identical to reference diagram)
+- Head/Ajna equilateral triangles (base 68px, height 58px)
+- Throat/Sacral/Root balanced rounded squares (66px × 66px, rx 6px)
+- G-Center classic diamond (80px × 80px)
+- Spleen & Solar Plexus symmetrical lateral triangles (base 100px, width 65px)
+- Heart center balanced right-tilted triangle (48px × 48px)
+- Full 36 sweeping curved concentric energy channels
+- High-contrast gate badges & typography
+- Authentic 384-line Rave I Ching fixations & 4 variables
 """
 
 from typing import Dict, List, Set, Tuple
@@ -37,11 +33,11 @@ WIDTH = 680
 HEIGHT = 920
 CENTER_X = 340
 
-# 9 Centers Geometry & Two-Tone Sacred Palette
+# 9 Centers Coordinate Geometry (Proportionally Harmonized to Reference Diagram)
 CENTERS_DATA = {
     "Head": {
         "type": "polygon",
-        "points": "340,50 290,132 390,132",
+        "points": "340,56 306,114 374,114",
         "defined_color": "#384556",
         "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
@@ -49,7 +45,7 @@ CENTERS_DATA = {
     },
     "Ajna": {
         "type": "polygon",
-        "points": "290,152 390,152 340,235",
+        "points": "306,146 374,146 340,204",
         "defined_color": "#384556",
         "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
@@ -57,7 +53,7 @@ CENTERS_DATA = {
     },
     "Throat": {
         "type": "rect",
-        "rect": (292, 260, 96, 80, 14),
+        "rect": (307, 240, 66, 66, 6),
         "defined_color": "#384556",
         "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
@@ -65,7 +61,7 @@ CENTERS_DATA = {
     },
     "G_Center": {
         "type": "polygon",
-        "points": "340,365 396,425 340,485 284,425",
+        "points": "340,360 380,400 340,440 300,400",
         "defined_color": "#384556",
         "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
@@ -73,7 +69,7 @@ CENTERS_DATA = {
     },
     "Heart": {
         "type": "polygon",
-        "points": "410,432 460,432 435,480",
+        "points": "400,415 448,395 438,455",
         "defined_color": "#9E4741",
         "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
@@ -81,7 +77,7 @@ CENTERS_DATA = {
     },
     "Spleen": {
         "type": "polygon",
-        "points": "184,472 248,572 184,672",
+        "points": "260,485 260,585 195,535",
         "defined_color": "#384556",
         "defined_stroke": "#1E293B",
         "undefined_color": "#FFFFFF",
@@ -89,7 +85,7 @@ CENTERS_DATA = {
     },
     "Solar_Plexus": {
         "type": "polygon",
-        "points": "496,472 432,572 496,672",
+        "points": "420,485 420,585 485,535",
         "defined_color": "#9E4741",
         "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
@@ -97,7 +93,7 @@ CENTERS_DATA = {
     },
     "Sacral": {
         "type": "rect",
-        "rect": (292, 532, 96, 80, 14),
+        "rect": (307, 502, 66, 66, 6),
         "defined_color": "#9E4741",
         "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
@@ -105,7 +101,7 @@ CENTERS_DATA = {
     },
     "Root": {
         "type": "rect",
-        "rect": (292, 662, 96, 86, 14),
+        "rect": (307, 630, 66, 66, 6),
         "defined_color": "#9E4741",
         "defined_stroke": "#7F312C",
         "undefined_color": "#FFFFFF",
@@ -117,37 +113,48 @@ CENTERS_CURVED = CENTERS_DATA
 CENTERS_LAYOUT = CENTERS_DATA
 
 CENTER_NODE_ANCHORS = {
-    "Head": (340, 115), "Ajna": (340, 185), "Throat": (340, 300),
-    "G_Center": (340, 425), "Heart": (435, 456), "Spleen": (216, 572),
-    "Solar_Plexus": (464, 572), "Sacral": (340, 572), "Root": (340, 705)
+    "Head": (340, 95), "Ajna": (340, 175), "Throat": (340, 273),
+    "G_Center": (340, 400), "Heart": (428, 422), "Spleen": (238, 535),
+    "Solar_Plexus": (442, 535), "Sacral": (340, 535), "Root": (340, 663)
 }
 
-# 64 Gate Coordinates
+# 64 Gate Coordinates aligned with the harmonized center boundaries
 GATE_POS = {
-    64: (310, 122), 61: (340, 122), 63: (370, 122),
-    47: (310, 168), 24: (340, 168), 4: (370, 168),
-    17: (316, 198), 43: (340, 215), 11: (364, 198),
-    62: (308, 275), 23: (340, 275), 56: (372, 275),
-    16: (306, 299), 20: (328, 307), 12: (352, 307), 35: (374, 299),
-    31: (308, 329), 8: (328, 329), 33: (352, 329), 45: (372, 329),
-    1: (340, 386),
-    7: (312, 410), 13: (368, 410),
-    10: (300, 425), 25: (380, 425),
-    15: (312, 448), 46: (368, 448),
-    2: (340, 464),
-    21: (428, 444), 51: (450, 450),
-    26: (418, 466), 40: (440, 472),
-    48: (198, 500), 57: (215, 530), 44: (230, 558),
-    50: (234, 582), 32: (222, 608), 28: (208, 632), 18: (196, 650),
-    36: (482, 500), 22: (465, 530), 37: (450, 558),
-    6: (446, 582), 49: (458, 608), 55: (472, 632), 30: (484, 650),
-    5: (310, 545), 14: (340, 545), 29: (370, 545),
-    34: (306, 572), 59: (374, 572),
-    27: (306, 599), 42: (328, 599), 3: (352, 599), 9: (374, 599),
-    53: (310, 680), 60: (340, 680), 52: (370, 680),
-    54: (306, 703), 19: (374, 703),
-    38: (306, 726), 39: (374, 726),
-    58: (324, 738), 41: (356, 738)
+    # Head Center (306-374, 56-114)
+    64: (318, 106), 61: (340, 106), 63: (362, 106),
+    # Ajna Center (306-374, 146-204)
+    47: (320, 158), 24: (340, 158), 4: (360, 158),
+    17: (326, 178), 43: (340, 194), 11: (354, 178),
+    # Throat Center (307-373, 240-306)
+    62: (318, 252), 23: (340, 252), 56: (362, 252),
+    16: (316, 273), 20: (332, 273), 12: (348, 273), 35: (364, 273),
+    31: (318, 294), 8: (332, 294), 33: (348, 294), 45: (362, 294),
+    # G Center (300-380, 360-440)
+    1: (340, 376),
+    7: (320, 392), 13: (360, 392),
+    10: (312, 400), 25: (368, 400),
+    15: (320, 416), 46: (360, 416),
+    2: (340, 428),
+    # Heart Center (400-448, 395-455)
+    21: (412, 412), 51: (436, 405),
+    26: (418, 434), 40: (434, 442),
+    # Spleen Center (195-260, 485-585)
+    48: (208, 515), 57: (222, 502), 44: (248, 500),
+    50: (248, 535), 32: (248, 570),
+    28: (222, 568), 18: (208, 555),
+    # Solar Plexus Center (420-485, 485-585)
+    36: (472, 515), 22: (458, 502), 37: (432, 500),
+    6: (432, 535), 49: (432, 570),
+    55: (458, 568), 30: (472, 555),
+    # Sacral Center (307-373, 502-568)
+    5: (318, 514), 14: (340, 514), 29: (362, 514),
+    34: (316, 535), 59: (364, 535),
+    27: (318, 556), 42: (332, 556), 3: (348, 556), 9: (362, 556),
+    # Root Center (307-373, 630-696)
+    53: (318, 642), 60: (340, 642), 52: (362, 642),
+    54: (316, 663), 19: (364, 663),
+    38: (318, 684), 39: (362, 684),
+    58: (328, 690), 41: (352, 690)
 }
 
 GATE_CENTER_MAP = {
@@ -162,45 +169,43 @@ GATE_CENTER_MAP = {
     53: 'Root', 60: 'Root', 52: 'Root', 54: 'Root', 19: 'Root', 38: 'Root', 39: 'Root', 58: 'Root', 41: 'Root'
 }
 
-DARK_CENTERS = {'Head', 'Ajna', 'Throat', 'G_Center', 'Heart', 'Spleen', 'Solar_Plexus', 'Sacral', 'Root'}
-
 CHANNEL_PATHS = {
-    (64, 47): "M 310,122 L 310,168",
-    (61, 24): "M 340,122 L 340,168",
-    (63, 4): "M 370,122 L 370,168",
-    (17, 62): "M 316,198 L 308,275",
-    (43, 23): "M 340,215 L 340,275",
-    (11, 56): "M 364,198 L 372,275",
-    (31, 7): "M 308,329 C 295,340 295,355 312,410",
-    (8, 1): "M 328,329 L 340,386",
-    (33, 13): "M 352,329 C 385,340 385,355 368,410",
-    (20, 10): "M 328,307 C 268,325 260,395 300,425",
-    (45, 21): "M 372,329 C 400,340 425,385 428,444",
-    (12, 22): "M 352,307 C 425,330 462,425 465,530",
-    (35, 36): "M 374,299 C 430,310 478,385 482,500",
-    (20, 34): "M 328,307 C 265,340 255,455 306,572",
-    (20, 57): "M 328,307 C 255,330 218,425 215,530",
-    (16, 48): "M 306,299 C 250,310 202,385 198,500",
-    (25, 51): "M 380,425 L 450,450",
-    (15, 5): "M 312,448 L 310,545",
-    (2, 14): "M 340,464 L 340,545",
-    (46, 29): "M 368,448 L 370,545",
-    (10, 34): "M 300,425 C 285,460 285,505 306,572",
-    (10, 57): "M 300,425 L 215,530",
-    (40, 37): "M 440,472 L 450,558",
-    (26, 44): "M 418,466 C 340,470 280,510 230,558",
-    (59, 6): "M 374,572 L 446,582",
-    (27, 50): "M 306,599 L 234,582",
-    (34, 57): "M 306,572 L 215,530",
-    (42, 53): "M 328,599 L 310,680",
-    (3, 60): "M 352,599 L 340,680",
-    (9, 52): "M 374,599 L 370,680",
-    (19, 49): "M 374,703 C 425,683 455,663 458,608",
-    (39, 55): "M 374,726 C 430,708 460,683 472,632",
-    (41, 30): "M 356,738 C 430,728 470,713 484,650",
-    (58, 18): "M 324,738 C 250,728 210,713 196,650",
-    (38, 28): "M 306,726 C 250,708 220,683 208,632",
-    (54, 32): "M 306,703 C 255,683 225,663 222,608"
+    (64, 47): "M 318,106 L 320,158",
+    (61, 24): "M 340,106 L 340,158",
+    (63, 4): "M 362,106 L 360,158",
+    (17, 62): "M 326,178 L 318,252",
+    (43, 23): "M 340,194 L 340,252",
+    (11, 56): "M 354,178 L 362,252",
+    (31, 7): "M 318,294 L 320,392",
+    (8, 1): "M 332,294 L 340,376",
+    (33, 13): "M 348,294 L 360,392",
+    (20, 10): "M 332,273 C 285,295 280,365 312,400",
+    (45, 21): "M 362,294 C 390,320 412,370 412,412",
+    (12, 22): "M 348,273 C 425,300 465,440 458,502",
+    (35, 36): "M 364,273 C 440,290 485,430 472,515",
+    (20, 34): "M 332,273 C 280,320 270,460 316,535",
+    (20, 57): "M 332,273 C 255,300 215,440 222,502",
+    (16, 48): "M 316,273 C 240,290 195,430 208,515",
+    (25, 51): "M 368,400 L 436,405",
+    (15, 5): "M 320,416 L 318,514",
+    (2, 14): "M 340,428 L 340,514",
+    (46, 29): "M 360,416 L 362,514",
+    (10, 34): "M 312,400 C 295,435 295,490 316,535",
+    (10, 57): "M 312,400 L 222,502",
+    (40, 37): "M 434,442 L 432,500",
+    (26, 44): "M 418,434 C 330,440 280,470 248,500",
+    (59, 6): "M 364,535 L 432,535",
+    (27, 50): "M 318,556 L 248,535",
+    (34, 57): "M 316,535 C 285,530 250,515 222,502",
+    (42, 53): "M 332,556 L 318,642",
+    (3, 60): "M 348,556 L 340,642",
+    (9, 52): "M 362,556 L 362,642",
+    (19, 49): "M 364,663 C 415,600 395,630 432,570",
+    (39, 55): "M 362,684 C 445,615 415,660 458,568",
+    (41, 30): "M 352,690 C 470,640 430,685 472,555",
+    (58, 18): "M 328,690 C 210,640 250,685 208,555",
+    (38, 28): "M 318,684 C 235,615 265,660 222,568",
+    (54, 32): "M 316,663 C 265,600 285,630 248,570"
 }
 
 
@@ -265,7 +270,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     pers_node_arr = "←" if pers_node_sub["arrow"] == "Left" else "→"
 
     svg = []
-    # 1. Master Canvas with Smooth Anti-Aliasing
+    # 1. Master Canvas
     svg.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}" width="100%" height="100%" style="background-color: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif;">')
 
     # 2. Defs: Striped Patterns & Subtle Drop Shadows
@@ -281,19 +286,17 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     </defs>
     ''')
 
-    # 3. Sacred Mandala Celestial Grid (Subtle Rings & Axial Alignment)
+    # 3. Sacred Mandala Celestial Grid
     svg.append('<!-- Sacred Mandala Geometry Background Grid -->')
     svg.append('<g opacity="0.65" stroke="#E2E8F0" fill="none">')
-    # Concentric circles centered at G-Center (340, 425)
-    svg.append('<circle cx="340" cy="425" r="140" stroke-width="1.0" />')
-    svg.append('<circle cx="340" cy="425" r="230" stroke-width="0.8" stroke-dasharray="4 4" />')
-    svg.append('<circle cx="340" cy="425" r="320" stroke-width="1.0" />')
-    svg.append('<circle cx="340" cy="425" r="410" stroke-width="0.8" stroke-dasharray="6 6" />')
-    # Axial Guides
+    svg.append('<circle cx="340" cy="400" r="140" stroke-width="1.0" />')
+    svg.append('<circle cx="340" cy="400" r="230" stroke-width="0.8" stroke-dasharray="4 4" />')
+    svg.append('<circle cx="340" cy="400" r="320" stroke-width="1.0" />')
+    svg.append('<circle cx="340" cy="400" r="410" stroke-width="0.8" stroke-dasharray="6 6" />')
     svg.append('<line x1="340" y1="20" x2="340" y2="880" stroke-width="1.0" />')
-    svg.append('<line x1="140" y1="425" x2="540" y2="425" stroke-width="0.8" stroke-dasharray="4 4" />')
-    svg.append('<line x1="160" y1="245" x2="520" y2="605" stroke-width="0.6" stroke-dasharray="4 4" />')
-    svg.append('<line x1="160" y1="605" x2="520" y2="245" stroke-width="0.6" stroke-dasharray="4 4" />')
+    svg.append('<line x1="140" y1="400" x2="540" y2="400" stroke-width="0.8" stroke-dasharray="4 4" />')
+    svg.append('<line x1="160" y1="220" x2="520" y2="580" stroke-width="0.6" stroke-dasharray="4 4" />')
+    svg.append('<line x1="160" y1="580" x2="520" y2="220" stroke-width="0.6" stroke-dasharray="4 4" />')
     svg.append('</g>')
 
     # 4. Zen Meditating Human Silhouette Profile Outline
@@ -317,7 +320,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
     """
     svg.append(f'<path d="{silhouette_path}" fill="#F8FAFC" stroke="#334155" stroke-width="1.8" stroke-linejoin="round" opacity="0.95" />')
 
-    # 5. Ultra-Clean Minimalist Left Design Column
+    # 5. Left Design Column
     from app.core.line_fixations import calculate_chart_fixations
     des_fixations = chart_data.get("design_fixations") or calculate_chart_fixations(des_gates)
     pers_fixations = chart_data.get("personality_fixations") or calculate_chart_fixations(pers_gates)
@@ -337,7 +340,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         if arrow:
             svg.append(f'<text x="112" y="{y_pos - 2}" fill="#DC2626" font-size="13" font-weight="900" text-anchor="middle">{arrow}</text>')
 
-    # 6. Ultra-Clean Minimalist Right Personality Column
+    # 6. Right Personality Column
     svg.append('<text x="608" y="46" fill="#0F172A" font-size="16" font-weight="700" text-anchor="middle">Personality</text>')
     svg.append('<line x1="558" y1="56" x2="658" y2="56" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" />')
 
@@ -351,19 +354,16 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         svg.append(f'<text x="604" y="{y_pos - 1}" fill="#0F172A" font-size="16.5" font-weight="600" text-anchor="middle">{gate}.{line}</text>')
         svg.append(f'<text x="646" y="{y_pos}" fill="#0F172A" font-size="20" font-weight="600" text-anchor="middle">{symbol}</text>')
 
-    # 7. Minimalist Top 4 Variables (Bold Directional Arrows beside Head)
-    # Left Design Arrows
+    # 7. Variables (Top 4 Directional Arrows)
     svg.append(f'<text x="175" y="125" fill="#DC2626" font-size="28" font-weight="900" text-anchor="middle">{des_sun_arr}</text>')
     svg.append(f'<text x="175" y="240" fill="#DC2626" font-size="28" font-weight="900" text-anchor="middle">{des_node_arr}</text>')
-
-    # Right Personality Arrows
     svg.append(f'<text x="505" y="125" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">{pers_sun_arr}</text>')
     svg.append(f'<text x="505" y="240" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">{pers_node_arr}</text>')
 
     # 8. Render All 36 Concentric & Sweeping Flow Channels
     from app.data.hd_topology import CHANNELS_DATA
 
-    # Layer 8.1: Underlying Full Double-Track Clean White Guides
+    # Layer 8.1: Underlying Dual-Track White Guides
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -372,11 +372,10 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
             p1 = CENTER_NODE_ANCHORS[c1]
             p2 = CENTER_NODE_ANCHORS[c2]
             path_d = f"M {p1[0]},{p1[1]} L {p2[0]},{p2[1]}"
-        # Grey outer track + pure white core
-        svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="9.5" stroke-linecap="round" fill="none" />')
-        svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="6.0" stroke-linecap="round" fill="none" />')
+        svg.append(f'<path d="{path_d}" stroke="#CBD5E1" stroke-width="8.5" stroke-linecap="round" fill="none" />')
+        svg.append(f'<path d="{path_d}" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" fill="none" />')
 
-    # Layer 8.2: Active Colored Channel Halves
+    # Layer 8.2: Active Colored Channels
     for g1, g2, name, c1, c2 in CHANNELS_DATA:
         ch_key = (g1, g2)
         rev_key = (g2, g1)
@@ -406,25 +405,25 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
         is_pers_1 = g1 in pers_gate_set
         is_des_1 = g1 in des_gate_set
         if is_pers_1 and is_des_1:
-            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
-            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="8.5" stroke-dasharray="6 6" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="butt" fill="none" />')
         elif is_des_1:
-            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
         elif is_pers_1:
-            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_1}" stroke="#18181B" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
 
         # Gate 2 activation
         is_pers_2 = g2 in pers_gate_set
         is_des_2 = g2 in des_gate_set
         if is_pers_2 and is_des_2:
-            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
-            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="8.5" stroke-dasharray="6 6" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="7.5" stroke-dasharray="6 6" stroke-linecap="butt" fill="none" />')
         elif is_des_2:
-            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#DC2626" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
         elif is_pers_2:
-            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="8.5" stroke-linecap="butt" fill="none" />')
+            svg.append(f'<path d="{half_2}" stroke="#18181B" stroke-width="7.5" stroke-linecap="butt" fill="none" />')
 
-    # 9. Render The 9 Energy Centers with Modern Two-Tone Sacred Palette
+    # 9. Render The 9 Harmonized Energy Centers
     for c_name, c_info in CENTERS_DATA.items():
         is_def = c_name in defined_centers
         fill_color = c_info["defined_color"] if is_def else c_info["undefined_color"]
@@ -437,7 +436,7 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
             pts = c_info["points"]
             svg.append(f'<polygon points="{pts}" fill="{fill_color}" stroke="{stroke_color}" stroke-width="2.0" stroke-linejoin="round" />')
 
-    # 10. Gate Numbers & Active Badges with Maximum Contrast
+    # 10. Gate Numbers & Active Badges with Maximum Legibility
     for g_num, (gx, gy) in GATE_POS.items():
         is_active = g_num in active_gates
         parent_center = GATE_CENTER_MAP.get(g_num, "")
@@ -445,19 +444,19 @@ def generate_bodygraph_svg(chart_data: dict) -> str:
 
         if is_active:
             if is_parent_defined:
-                # Active on Defined Dark/Terracotta Center: Crisp Solid White Circle + Ultra-Bold Black Number
-                svg.append(f'<circle cx="{gx}" cy="{gy}" r="9.2" fill="#FFFFFF" stroke="#000000" stroke-width="0.5" />')
-                svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#000000" font-size="11.5" font-weight="900" text-anchor="middle">{g_num}</text>')
+                # Active on Defined Center: Crisp Solid White Circle + Bold Black Number
+                svg.append(f'<circle cx="{gx}" cy="{gy}" r="8.5" fill="#FFFFFF" stroke="#000000" stroke-width="0.5" />')
+                svg.append(f'<text x="{gx}" y="{gy + 3.8}" fill="#000000" font-size="11" font-weight="900" text-anchor="middle">{g_num}</text>')
             else:
-                # Active on Light/White Undefined Center: Ultra-Bold Black Number
-                svg.append(f'<text x="{gx}" y="{gy + 4}" fill="#000000" font-size="12" font-weight="900" text-anchor="middle">{g_num}</text>')
+                # Active on Light Undefined Center: Ultra-Bold Black Number
+                svg.append(f'<text x="{gx}" y="{gy + 3.8}" fill="#000000" font-size="11.5" font-weight="900" text-anchor="middle">{g_num}</text>')
         else:
             if is_parent_defined:
                 # Inactive on Dark Center: Crisp High-Contrast White Text
-                svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#FFFFFF" opacity="0.9" font-size="10.5" font-weight="700" text-anchor="middle">{g_num}</text>')
+                svg.append(f'<text x="{gx}" y="{gy + 3.5}" fill="#FFFFFF" opacity="0.9" font-size="10" font-weight="700" text-anchor="middle">{g_num}</text>')
             else:
                 # Inactive on Undefined White Center: Soft Slate Grey Text
-                svg.append(f'<text x="{gx}" y="{gy + 3.6}" fill="#64748B" font-size="10.5" font-weight="600" text-anchor="middle">{g_num}</text>')
+                svg.append(f'<text x="{gx}" y="{gy + 3.5}" fill="#64748B" font-size="10" font-weight="600" text-anchor="middle">{g_num}</text>')
 
     svg.append('</svg>')
     return "".join(svg)
